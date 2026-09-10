@@ -1,0 +1,838 @@
+/* ==========================================================================
+   JCP ADVOCACIA — Landing unificada · copy v2
+   Sistema: navy + papel + dourado. Autoridade sem intimidacao.
+   ========================================================================== */
+
+/* ---------- 1. Tokens ---------- */
+:root{
+  --navy-950:#080D1A;
+  --navy-900:#0B1426;
+  --navy-800:#101B32;
+  --navy-700:#182642;
+  --navy-600:#233257;
+
+  --paper:#FFFFFF;
+  --paper-alt:#F1F4F8;
+  --white:#FFFFFF;
+  --ink:#141A2B;
+  --ink-soft:#3A4258;
+  --ink-muted:#6B7288;
+
+  --gold-200:#F2E0B8;
+  --gold-300:#E8CD93;
+  --gold-400:#D9B874;
+  --gold-500:#C79C50;
+  --gold-600:#A97F3A;
+
+  /* um acento so: o icone e o fio superior usam sempre a mesma cor.
+     Sete pasteis diferentes liam como paleta de boutique. */
+  --svc-acerto:var(--navy-700);
+  --svc-vinculo:var(--navy-700);
+  --svc-acidente:var(--navy-700);
+  --svc-inss:var(--navy-700);
+  --svc-hora:var(--navy-700);
+  --svc-insalubre:var(--navy-700);
+  --svc-humilhacao:var(--navy-700);
+  --svc-outro:var(--navy-700);
+
+  /* verde do WhatsApp: e o sinal que o publico reconhece sem ler */
+  --wa:#0FA958;
+  --wa-escuro:#0B8A47;
+  --wa-claro:#12C065;
+
+  /* uma familia so. Archivo condensada em caixa alta lia como revista
+     de banca premium, nao como alguem falando com voce. */
+  --font-display:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  --wrap:1180px;
+  --r-card:12px;
+  --r-panel:14px;
+  --r-btn:8px;
+
+  --shadow-card:0 1px 2px rgba(20,26,43,.04), 0 14px 30px -18px rgba(20,26,43,.18);
+  --shadow-lift:0 2px 4px rgba(20,26,43,.05), 0 22px 44px -20px rgba(20,26,43,.26);
+}
+
+/* ---------- 2. Reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  font-weight:500;font-size:1.12rem;line-height:1.7;
+  color:var(--ink-soft);background:var(--paper);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+button{font:inherit}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4{margin:0;color:var(--ink);font-family:var(--font-display);font-weight:800;line-height:1.12;letter-spacing:-.018em}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+:focus-visible{outline:3px solid var(--wa);outline-offset:3px;border-radius:4px}
+
+/* ---------- 3. Tipografia ---------- */
+h1,.h1{font-size:clamp(2.25rem,4.4vw,3.4rem);line-height:1.1;letter-spacing:-.025em}
+h2,.h2{font-size:clamp(1.85rem,3.4vw,2.6rem);line-height:1.14;letter-spacing:-.022em}
+h3{font-size:clamp(1.22rem,1.7vw,1.45rem);line-height:1.25;letter-spacing:-.015em}
+h4{font-size:1.08rem;line-height:1.35}
+
+.lede{font-size:clamp(1.15rem,1.4vw,1.3rem);line-height:1.62;max-width:56ch;color:var(--ink-soft)}
+.prose{max-width:62ch}
+.prose strong{color:var(--ink);font-weight:800}
+.legenda{font-size:.8rem;line-height:1.6;color:var(--ink-muted);margin:0}
+
+.chapeu{
+  display:flex;align-items:center;gap:.85rem;margin:0 0 1.1rem;
+  font-family:var(--font-body);font-weight:800;font-size:.8rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gold-600);
+}
+.chapeu::before{content:"";width:26px;height:2px;background:currentColor;flex:none;border-radius:2px}
+.bg-navy .chapeu{color:var(--gold-400)}
+
+.sub-title{
+  font-family:var(--font-display);font-weight:800;
+  font-size:1.2rem;color:var(--ink);line-height:1.25;margin:0 0 1.1rem;
+}
+.bg-navy .sub-title{color:var(--paper)}
+
+/* ---------- 4. Layout ---------- */
+.wrap{width:min(var(--wrap),100% - 2.5rem);margin-inline:auto}
+.wrap--narrow{width:min(880px,100% - 2.5rem);margin-inline:auto}
+section{padding-block:clamp(3.5rem,7vw,6rem);position:relative}
+section[id]{scroll-margin-top:80px}
+
+.bg-paper{background:var(--paper)}
+.bg-paper-alt{background:var(--paper-alt)}
+
+/* o grao de papel saiu junto com o fundo creme: textura de papel de carta
+   e o que faz uma pagina parecer escritorio caro. */
+.bg-paper>*,.bg-paper-alt>*{position:relative;z-index:1}
+
+.bg-navy{background:var(--navy-900);color:#C3CAD8}
+.bg-navy h1,.bg-navy h2,.bg-navy h3,.bg-navy h4{color:var(--paper)}
+.bg-navy .lede{color:#AEB7C7}
+.bg-navy .legenda{color:#7C879C}
+.bg-navy .prose strong{color:var(--paper)}
+
+.sec-head{margin-bottom:clamp(1.75rem,3.5vw,2.5rem)}
+.sec-head--center{text-align:center}
+.sec-head--center .chapeu{justify-content:center}
+.sec-head--center .lede{margin-inline:auto}
+.sec-head h2{margin-bottom:.9rem}
+
+/* ---------- 5. Botoes ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
+  padding:1.15rem 1.9rem;border-radius:var(--r-btn);border:1.5px solid transparent;
+  font-family:var(--font-body);font-weight:800;font-size:1.06rem;
+  letter-spacing:-.01em;text-decoration:none;
+  line-height:1.2;text-align:center;cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, color .18s ease, background-color .18s ease;
+}
+.btn svg{flex:none;width:22px;height:22px}
+
+/* O botao principal e verde de WhatsApp, nao dourado.
+   Dourado dizia "caro". Verde diz "isso e um zap, eu sei usar". */
+.btn--wa{
+  background:var(--wa);color:#FFFFFF;
+  box-shadow:0 10px 24px -10px rgba(15,169,88,.6);
+}
+.btn--wa:hover{background:var(--wa-escuro);transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(15,169,88,.7)}
+.btn--ghost{background:var(--white);border-color:rgba(20,26,43,.22);color:var(--ink);font-size:1rem}
+.btn--ghost:hover{border-color:var(--navy-700);background:var(--paper-alt);transform:translateY(-2px)}
+.bg-navy .btn--ghost,.hero .btn--ghost,.site-header .btn--ghost{background:transparent;border-color:rgba(255,255,255,.4);color:#FFFFFF}
+.bg-navy .btn--ghost:hover,.hero .btn--ghost:hover,.site-header .btn--ghost:hover{border-color:#FFFFFF;background:rgba(255,255,255,.08);color:#FFFFFF}
+.btn--sm{padding:.8rem 1.2rem;font-size:.92rem}
+.btn--sm svg{width:19px;height:19px}
+/* CTA de bloco ocupa a linha inteira: alvo grande para o polegar */
+.btn--bloco{width:100%}
+.btn-row{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
+.cta-foot{margin-top:1.75rem;display:flex;flex-wrap:wrap;gap:1rem 1.5rem;align-items:center}
+
+/* ---------- 6. Pilulas ---------- */
+.pills{display:flex;flex-wrap:wrap;gap:.6rem;padding:0}
+.pill{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.6rem 1.05rem;border-radius:999px;
+  font-size:.85rem;font-weight:700;line-height:1.35;
+  border:1px solid rgba(20,26,43,.12);color:var(--ink-soft);background:var(--white);
+}
+.pill svg{width:18px;height:18px;flex:none;color:var(--wa)}
+.bg-navy .pill,.hero .pill{border-color:rgba(232,205,147,.22);background:rgba(255,255,255,.03);color:#C3CAD8}
+.bg-navy .pill svg,.hero .pill svg{color:var(--gold-400)}
+
+/* ---------- 7. Cabecalho ---------- */
+.site-header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(8,13,26,.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(232,205,147,.12);
+}
+.site-header .wrap{display:flex;align-items:center;gap:1rem;min-height:62px}
+.brand{display:flex;align-items:center;flex:none;text-decoration:none;margin-right:auto}
+.brand img{width:150px}
+.fone{
+  display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;
+  font-weight:800;font-size:.95rem;color:var(--paper);white-space:nowrap;
+}
+.fone svg{width:18px;height:18px;color:var(--gold-400);flex:none}
+.fone:hover{color:var(--gold-300)}
+@media(max-width:520px){
+  .brand img{width:118px}
+  .fone{font-size:.86rem;gap:.4rem}
+}
+
+/* ---------- 8. Heroi ---------- */
+.hero{
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(199,156,80,.16), transparent 58%),
+    linear-gradient(180deg,var(--navy-950) 0%,var(--navy-900) 46%,var(--navy-800) 100%);
+  color:#C3CAD8;padding-block:clamp(2.75rem,5vw,4.5rem) 0;overflow:hidden;
+}
+.hero h1{color:var(--paper);margin-bottom:.5rem;max-width:16ch}
+/* a segunda linha e a promessa: fica em dourado, unico lugar onde
+   a cor antiga ainda paga o proprio espaco */
+.hero h1 .line2{display:block;color:var(--gold-300);font-size:.78em;line-height:1.14;margin-top:.3em;max-width:24ch}
+.hero .lede{margin:1.35rem 0 1rem;color:#AEB7C7}
+.hero-grid{display:grid;gap:clamp(1.5rem,4vw,3rem);align-items:end}
+.hero-copy{padding-bottom:clamp(2.25rem,4vw,3.5rem)}
+.hero-sigilo{
+  display:flex;align-items:center;gap:.6rem;margin:0 0 1.6rem;
+  font-size:.98rem;color:#A9B3C6;
+}
+.hero-sigilo svg{width:18px;height:18px;color:var(--wa-claro);flex:none}
+
+.hero-figure{position:relative;justify-self:center;align-self:end;width:100%;max-width:420px}
+.hero-figure::before{
+  content:"";position:absolute;left:50%;top:6%;translate:-50% 0;
+  width:96%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.10) 0%,transparent 68%);
+  filter:blur(8px);
+}
+.hero-figure picture{display:block}
+/* sem moldura dourada, que lia como retrato institucional.
+   O radius discreto fica: a foto tem fundo cinza de estudio e, sem ele,
+   o retangulo briga com o navy em vez de emendar. */
+.hero-figure img{
+  position:relative;width:100%;object-fit:cover;object-position:top center;
+  border-radius:10px;border:0;
+  box-shadow:0 24px 48px -24px rgba(0,0,0,.85);
+}
+@media(min-width:900px){
+  .hero-grid{grid-template-columns:1fr .88fr}
+  .hero-figure{max-width:none}
+}
+
+.selos{border-top:1px solid rgba(232,205,147,.14);background:var(--navy-950)}
+.selos ul{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(232,205,147,.12)}
+.selos li{
+  display:flex;align-items:center;gap:.7rem;padding:1.05rem .5rem;
+  background:var(--navy-950);font-size:.92rem;font-weight:700;
+  color:#D7DCE5;line-height:1.35;
+}
+.selos li svg{width:21px;height:21px;flex:none;color:var(--gold-400)}
+@media(min-width:900px){.selos ul{grid-template-columns:repeat(4,1fr)}}
+
+/* espaco reservado de foto */
+.foto-slot{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.6rem;text-align:center;padding:1.75rem 1.25rem;
+  border-radius:18px;border:1px dashed rgba(232,205,147,.32);
+  background:linear-gradient(160deg,rgba(35,50,87,.5),rgba(16,27,50,.5));
+}
+.foto-slot b{
+  font-family:var(--font-body);font-weight:700;font-size:.7rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold-400);
+}
+.foto-slot span{font-size:.84rem;line-height:1.55;color:#8B96AB;max-width:30ch}
+.foto-slot--larga{aspect-ratio:16/10}
+.foto-slot--claro{
+  border-color:rgba(169,127,58,.35);
+  background:linear-gradient(160deg,rgba(255,255,255,.7),rgba(242,236,225,.7));
+}
+.foto-slot--claro b{color:var(--gold-600)}
+.foto-slot--claro span{color:var(--ink-muted)}
+
+/* ---------- 9. Video ---------- */
+.video-block{background:var(--navy-800);border-top:1px solid rgba(232,205,147,.1)}
+.video-grid{display:grid;gap:clamp(1.75rem,4vw,3.5rem);align-items:center}
+.player-wrap{margin:0}
+@media(min-width:860px){
+  .video-grid{grid-template-columns:auto 1fr}
+  .player-wrap{order:-1}
+}
+.player{
+  position:relative;width:min(300px,80vw);margin-inline:auto;
+  border-radius:22px;overflow:hidden;background:#000;
+  border:1px solid rgba(232,205,147,.3);
+  box-shadow:0 34px 64px -28px rgba(0,0,0,.95);
+}
+.player video{display:block;width:100%;height:auto;aspect-ratio:510/854;object-fit:cover;background:#000}
+.video-nota{
+  display:flex;align-items:center;gap:.6rem;margin-top:1rem;
+  font-size:.86rem;line-height:1.5;color:#8B96AB;justify-content:center;
+}
+.video-nota svg{width:17px;height:17px;color:var(--gold-400);flex:none}
+
+/* ---------- 10. Triador ---------- */
+.tri-grid{display:grid;gap:.85rem;grid-template-columns:1fr}
+@media(min-width:600px){.tri-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:980px){.tri-grid{grid-template-columns:repeat(4,1fr)}}
+
+.tri-card{
+  position:relative;display:flex;flex-direction:column;gap:.7rem;
+  padding:1.4rem 1.2rem 1.25rem;cursor:pointer;overflow:hidden;
+  background:var(--white);border:1px solid rgba(20,26,43,.07);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.tri-card::before{content:none}
+.tri-card:hover{transform:translateY(-2px);border-color:var(--navy-600)}
+.tri-card input{position:absolute;opacity:0;width:1px;height:1px}
+.tri-topo{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.tri-ico{width:34px;height:34px;color:var(--svc);flex:none}
+.tri-box{
+  flex:none;width:26px;height:26px;border-radius:8px;
+  border:1.5px solid rgba(20,26,43,.2);display:grid;place-items:center;
+  transition:background-color .16s ease,border-color .16s ease;
+}
+.tri-box svg{width:14px;height:14px;color:#FFFFFF;opacity:0;transition:opacity .16s ease}
+.tri-card input:checked ~ .tri-topo .tri-box{background:var(--wa);border-color:transparent}
+.tri-card input:checked ~ .tri-topo .tri-box svg{opacity:1}
+.tri-card:has(input:checked){border-color:var(--wa);box-shadow:var(--shadow-lift);background:#F4FCF7}
+.tri-card input:focus-visible ~ .tri-topo .tri-box{outline:3px solid var(--wa);outline-offset:3px}
+.tri-txt{
+  font-family:var(--font-display);font-weight:800;letter-spacing:-.015em;
+  font-size:1.12rem;line-height:1.24;color:var(--ink);
+}
+
+.tri-result{
+  display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.75rem;
+  margin-top:1.5rem;padding:1.4rem 1.6rem;border-radius:var(--r-panel);
+  background:var(--white);border:2px solid rgba(15,169,88,.35);
+  box-shadow:var(--shadow-card);
+}
+.tri-msg{flex:1 1 260px;font-size:1.05rem;line-height:1.6;color:var(--ink-soft);min-width:0;margin:0}
+.tri-msg strong{color:var(--ink);font-weight:800}
+
+/* ---------- 11. Areas (acordeao) ---------- */
+.areas{display:grid;gap:.9rem}
+.area{
+  background:var(--white);border:1px solid rgba(20,26,43,.08);
+  border-radius:var(--r-panel);box-shadow:var(--shadow-card);overflow:hidden;
+  transition:border-color .18s ease;
+}
+.area::before{content:none}
+.area[open],.area:hover{border-color:var(--navy-600)}
+.area>summary{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.4rem 1.5rem;cursor:pointer;list-style:none;
+}
+.area>summary::-webkit-details-marker{display:none}
+.area>summary::after{
+  content:"";flex:none;width:13px;height:13px;margin:.55rem 0 0 auto;
+  border-right:3px solid var(--navy-700);border-bottom:3px solid var(--navy-700);
+  rotate:45deg;transition:rotate .2s ease;
+}
+.area[open]>summary::after{rotate:-135deg;margin-top:.9rem}
+.area-ico{width:38px;height:38px;flex:none;color:var(--svc);margin-top:.1rem}
+.area-cab{display:block;min-width:0}
+.area-cab h3{margin-bottom:.5rem;text-transform:none;letter-spacing:0}
+.area-frase{display:block;font-size:1.02rem;line-height:1.55;color:var(--ink-soft)}
+
+.numeros{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.9rem}
+.numeros b{
+  display:inline-flex;align-items:baseline;gap:.45rem;
+  padding:.5rem 1rem;border-radius:999px;
+  background:#EAF7F0;border:1px solid rgba(15,169,88,.3);
+  font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;
+  font-size:1.35rem;line-height:1;color:var(--wa-escuro);
+}
+.numeros b span{
+  font-family:var(--font-body);font-weight:700;
+  font-size:.84rem;line-height:1.3;color:var(--ink-soft);letter-spacing:0;
+}
+.area-corpo{padding:0 1.5rem 1.6rem;display:grid;gap:1.5rem}
+@media(max-width:560px){
+  .area>summary{padding:1.2rem 1.15rem;gap:.75rem}
+  .area-corpo{padding:0 1.15rem 1.4rem}
+}
+
+/* ---------- 12. Listas dentro das areas ---------- */
+.painel{
+  background:var(--paper);border:1px solid rgba(20,26,43,.07);
+  border-radius:var(--r-panel);padding:clamp(1.2rem,2.5vw,1.6rem);
+}
+.checks{display:grid;grid-template-columns:1fr}
+@media(min-width:760px){.checks{grid-template-columns:repeat(2,1fr);column-gap:2.25rem}}
+/* bloco, nao flex: em flex cada <strong> vira uma coluna separada do texto */
+.checks li{
+  position:relative;display:block;padding:.75rem 0 .75rem 2.3rem;
+  border-bottom:1px solid rgba(20,26,43,.08);
+  font-size:1.05rem;line-height:1.55;color:var(--ink-soft);
+}
+.checks li::before{
+  content:"\2713";position:absolute;left:0;top:.76rem;
+  width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  background:#DDF3E7;color:var(--wa-escuro);
+  font-size:.8rem;font-weight:800;line-height:1;
+}
+
+.conta{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#FFFFFF,#F4FCF7);
+  border:1px solid rgba(15,169,88,.28);border-radius:var(--r-panel);
+  padding:clamp(1.2rem,2.5vw,1.6rem);
+}
+.conta::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--wa)}
+.conta ul{display:grid;grid-template-columns:1fr}
+@media(min-width:720px){.conta ul{grid-template-columns:repeat(2,1fr);column-gap:2.25rem}}
+.conta li{
+  position:relative;display:block;padding:.7rem 0 .7rem 1.3rem;
+  border-bottom:1px solid rgba(15,169,88,.16);
+  font-size:1.05rem;line-height:1.55;color:var(--ink-soft);
+}
+.conta li::before{
+  content:"+";position:absolute;left:0;top:.72rem;
+  color:var(--wa-escuro);font-weight:800;font-size:1.1rem;line-height:1.5;
+}
+
+.callout{
+  display:flex;gap:1rem;padding:1.2rem 1.35rem;border-radius:var(--r-panel);
+  background:var(--white);border:1px solid rgba(20,26,43,.07);
+  border-left:3px solid var(--gold-500);
+}
+.callout svg{width:22px;height:22px;flex:none;color:var(--gold-600);margin-top:2px}
+.callout p{font-size:1.02rem;line-height:1.62}
+.callout strong{color:var(--ink);font-weight:800}
+.bg-navy .callout{background:var(--navy-800);border-color:var(--navy-600);border-left-color:var(--gold-500);color:#C3CAD8}
+.bg-navy .callout strong{color:var(--paper)}
+.bg-navy .callout svg{color:var(--gold-400)}
+
+/* ---------- 13. As tres travas ---------- */
+.travas{display:grid;gap:1rem;grid-template-columns:1fr}
+@media(min-width:900px){.travas{grid-template-columns:repeat(3,1fr)}}
+.trava{
+  padding:1.6rem 1.5rem;border-radius:var(--r-panel);
+  background:var(--navy-800);border:1px solid var(--navy-600);
+}
+.trava h3{
+  font-size:1.2rem;line-height:1.3;margin-bottom:.85rem;
+  letter-spacing:-.015em;color:var(--gold-300);
+}
+.trava p{font-size:1.04rem;line-height:1.68;color:#CFD6E1}
+
+/* ---------- 14. Como funciona ---------- */
+.steps{display:grid;gap:1rem;grid-template-columns:1fr;counter-reset:s}
+@media(min-width:720px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{
+  position:relative;padding:1.6rem 1.35rem 1.4rem;counter-increment:s;
+  background:var(--white);border:1px solid rgba(20,26,43,.07);
+  border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  transition:border-color .18s ease,transform .18s ease;
+}
+.step:hover{border-color:var(--wa);transform:translateY(-3px)}
+.step::before{
+  content:counter(s);display:grid;place-items:center;margin-bottom:.85rem;
+  width:38px;height:38px;border-radius:50%;background:var(--wa);color:#FFFFFF;
+  font-family:var(--font-display);font-weight:800;
+  font-size:1.15rem;line-height:1;
+}
+.step h3{font-size:1.12rem;margin-bottom:.5rem;letter-spacing:-.015em}
+.step p{font-size:1rem;line-height:1.6;color:var(--ink-soft)}
+
+/* ---------- 15. Onde a gente fica ---------- */
+.onde{display:grid;gap:clamp(1.75rem,4vw,3rem);align-items:center}
+@media(min-width:900px){.onde{grid-template-columns:1.05fr .95fr}}
+.endereco{
+  display:flex;gap:1rem;padding:1.4rem 1.5rem;margin:1.5rem 0;
+  background:var(--white);border:1px solid rgba(20,26,43,.08);
+  border-radius:var(--r-panel);box-shadow:var(--shadow-card);
+}
+.endereco svg{width:24px;height:24px;flex:none;color:var(--gold-600);margin-top:2px}
+.endereco p{font-size:1.02rem;line-height:1.6;color:var(--ink)}
+.onde-legenda{margin-top:.9rem;font-size:.92rem;line-height:1.55;color:var(--ink-muted);text-align:center}
+
+/* ---------- 16. Recado ---------- */
+.recado{display:grid;gap:clamp(1.75rem,4vw,3rem);align-items:center}
+/* a foto acompanha a altura da carta. Com .8fr e proporcao fixa ela
+   sobrava e abria um buraco embaixo do texto. */
+@media(min-width:920px){
+  .recado{grid-template-columns:.66fr 1.34fr;align-items:stretch}
+  .recado>figure{display:flex}
+  .recado>figure .foto-slot{width:100%;aspect-ratio:auto;min-height:400px}
+  .recado>figure picture{display:flex;width:100%}
+  .recado>figure img{width:100%;height:100%;object-fit:cover;object-position:top}
+}
+.recado>figure img{
+  width:100%;border-radius:var(--r-panel);
+  border:1px solid rgba(232,205,147,.18);
+}
+.carta{
+  background:var(--navy-800);border:1px solid var(--navy-600);
+  border-radius:var(--r-panel);padding:clamp(1.5rem,3.5vw,2.25rem);
+}
+.carta p{font-size:1.04rem;line-height:1.75;color:#C3CAD8;margin-bottom:1rem}
+.carta p:last-of-type{margin-bottom:0}
+.carta strong{color:var(--paper);font-weight:700}
+.assinatura{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid var(--navy-600);
+}
+.assinatura .nome{
+  font-family:var(--font-display);font-weight:800;font-size:1.35rem;
+  line-height:1.2;letter-spacing:-.02em;color:var(--paper);
+}
+.assinatura .cargo{font-size:.84rem;line-height:1.45;color:#7C879C}
+
+/* ---------- 17. FAQ ---------- */
+.faq{display:grid;gap:.65rem}
+.faq details{
+  background:var(--white);border:1px solid rgba(20,26,43,.07);
+  border-radius:12px;box-shadow:var(--shadow-card);overflow:hidden;
+  transition:border-color .18s ease;
+}
+.faq details[open],.faq details:hover{border-color:var(--navy-600)}
+.faq summary{
+  display:flex;align-items:flex-start;gap:1rem;padding:1.1rem 1.3rem;cursor:pointer;
+  list-style:none;font-family:var(--font-display);font-weight:800;
+  font-size:1.08rem;line-height:1.35;letter-spacing:-.015em;color:var(--ink);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"";flex:none;width:10px;height:10px;margin:6px 0 0 auto;
+  border-right:2.6px solid var(--navy-700);border-bottom:2.6px solid var(--navy-700);
+  rotate:45deg;transition:rotate .2s ease;
+}
+.faq details[open] summary::after{rotate:-135deg}
+.faq .answer{padding:0 1.3rem 1.25rem;font-size:1.02rem;line-height:1.7;color:var(--ink-soft);max-width:66ch}
+
+/* ---------- 18. Fechamento ---------- */
+.final{text-align:center;
+  background:radial-gradient(90% 70% at 50% 0%, rgba(199,156,80,.15), transparent 62%),var(--navy-900);
+}
+.final h2{margin-bottom:1.75rem}
+.garantias{display:grid;gap:.6rem;max-width:520px;margin:2rem auto 0;text-align:left}
+.garantias li{
+  display:flex;align-items:flex-start;gap:.75rem;
+  font-size:1.02rem;line-height:1.55;color:#CFD6E1;
+}
+.garantias li svg{width:20px;height:20px;flex:none;color:var(--wa-claro);margin-top:3px}
+.final .aviso{margin-top:2.25rem;font-size:.8rem;line-height:1.65;color:#7C879C;max-width:62ch;margin-inline:auto}
+.final .aviso a{color:#A9B3C6}
+
+/* ---------- 19. Rodape ---------- */
+.site-footer{
+  background:var(--navy-950);color:#8B96AB;
+  padding-block:clamp(2.75rem,5vw,3.75rem) 7rem;
+  border-top:1px solid rgba(232,205,147,.12);
+}
+.footer-grid{display:grid;gap:2rem;grid-template-columns:1fr}
+@media(min-width:640px){.footer-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.footer-grid{grid-template-columns:1.25fr 1fr 1.3fr 1.1fr}}
+.site-footer h4{
+  font-family:var(--font-body);font-stretch:100%;font-weight:700;font-size:.73rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold-400);margin-bottom:.9rem;
+}
+.site-footer p,.site-footer li{font-size:.88rem;line-height:1.65}
+.site-footer .foot-brand img{width:165px;margin-bottom:1rem}
+.site-footer a{color:#8B96AB;text-decoration:none;transition:color .16s ease}
+.site-footer a:hover{color:var(--gold-300)}
+.foot-areas{display:flex;flex-wrap:wrap;gap:.3rem .8rem}
+.foot-areas a{font-size:.85rem}
+.foot-legal{
+  margin-top:2.5rem;padding-top:1.6rem;border-top:1px solid rgba(232,205,147,.12);
+  display:flex;flex-wrap:wrap;gap:.9rem 2rem;justify-content:space-between;align-items:flex-end;
+  font-size:.76rem;line-height:1.65;color:#6B7288;
+}
+.foot-legal p{max-width:72ch}
+
+/* ---------- 20. Barra fixa de WhatsApp ---------- */
+.wa-bar{
+  position:fixed;z-index:70;left:0;right:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;gap:.65rem;
+  padding:1rem 1.25rem;text-decoration:none;
+  background:var(--wa);color:#FFFFFF;
+  font-size:1.12rem;font-weight:800;letter-spacing:-.01em;
+  box-shadow:0 -8px 28px -8px rgba(0,0,0,.45);
+  padding-bottom:calc(1rem + env(safe-area-inset-bottom,0px));
+}
+.wa-bar svg{width:26px;height:26px;color:#FFFFFF;flex:none}
+@media(min-width:760px){
+  .wa-bar{
+    left:auto;right:clamp(1rem,3vw,1.75rem);bottom:clamp(1rem,3vw,1.75rem);
+    border-radius:999px;padding:.95rem 1.5rem;font-size:.9rem;
+    border:2px solid rgba(255,255,255,.35);
+    box-shadow:0 16px 36px -12px rgba(18,140,80,.7), 0 2px 8px rgba(0,0,0,.3);
+    transition:transform .18s ease;
+  }
+  .wa-bar:hover{transform:translateY(-3px)}
+  .site-footer{padding-bottom:clamp(2.5rem,4vw,3.5rem)}
+}
+
+/* ---------- 21. Animacao — so no heroi ---------- */
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero .anim{animation:riseIn .8s cubic-bezier(.22,.7,.3,1) both}
+.hero .anim:nth-child(1){animation-delay:.05s}
+.hero .anim:nth-child(2){animation-delay:.14s}
+.hero .anim:nth-child(3){animation-delay:.23s}
+.hero .anim:nth-child(4){animation-delay:.32s}
+.hero .anim:nth-child(5){animation-delay:.41s}
+.hero-figure{animation:riseIn 1s cubic-bezier(.22,.7,.3,1) .2s both}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+/* ==========================================================================
+   22. CELULAR — so aqui. Nada abaixo muda o desktop.
+   Ideia: menos bloco empilhado, mais coisa lado a lado, e o botao do
+   WhatsApp vira bolinha no canto em vez de tapar a tela inteira.
+   ========================================================================== */
+@media(max-width:759px){
+
+  /* margem lateral menor: sobra largura de verdade pro conteudo */
+  .wrap{width:min(var(--wrap),100% - 1.9rem)}
+  .wrap--narrow{width:min(880px,100% - 1.9rem)}
+  section{padding-block:clamp(2.4rem,7.5vw,3.4rem)}
+  .sec-head{margin-bottom:1.35rem}
+
+  /* no celular todo CTA ocupa a linha inteira. Alvo de polegar,
+     nao botao de brochura. */
+  .btn{padding:1.05rem 1.2rem;font-size:1rem;width:100%}
+  .btn svg{width:21px;height:21px}
+  .btn--sm{width:auto;font-size:.92rem}
+  .cta-foot{margin-top:1.35rem;gap:.75rem}
+  .cta-foot .btn{width:100%}
+
+  /* ---- 8. Heroi: foto do lado do titulo, texto embaixo em linha cheia ---- */
+  .hero{padding-block:1.5rem 0}
+  .hero-grid{
+    grid-template-columns:1fr clamp(118px,36%,168px);
+    column-gap:.9rem;row-gap:0;align-items:start;
+  }
+  .hero-copy{display:contents}
+  .hero .chapeu{
+    grid-area:1/1/2/-1;margin-bottom:.9rem;
+    font-size:.67rem;letter-spacing:.12em;
+  }
+  .hero .chapeu::before{width:18px}
+  .hero h1{
+    grid-area:2/1/3/2;align-self:center;
+    font-size:clamp(1.72rem,7.8vw,2.25rem);max-width:none;
+  }
+  .hero h1 .line2{font-size:.8em;margin-top:.34em;max-width:none}
+  .hero-figure{grid-area:2/2/3/3;align-self:start;max-width:none;margin:0}
+  .hero .lede{grid-area:3/1/4/-1;margin:1.15rem 0 .85rem;font-size:1.06rem}
+  .hero-sigilo{grid-area:4/1/5/-1;margin-bottom:1.15rem;font-size:.94rem}
+  .hero .btn-row{
+    grid-area:5/1/6/-1;display:grid;grid-template-columns:1fr;
+    gap:.6rem;padding-bottom:1.9rem;
+  }
+  .hero .btn-row .btn--ghost{padding:.85rem 1rem;font-size:.94rem}
+
+  .selos li{padding:.9rem .45rem;gap:.5rem;font-size:.85rem}
+  .selos li svg{width:19px;height:19px}
+
+  /* ---- 9. Video: legenda mais junta do player ---- */
+  .video-grid{gap:1.5rem}
+  .player{width:min(280px,72vw)}
+  .video-nota{font-size:.8rem;margin-top:.8rem;align-items:flex-start;text-align:left}
+  .video-nota svg{margin-top:.18rem}
+
+  /* ---- 10. Triador: dois cartoes por linha ---- */
+  .tri-grid{grid-template-columns:repeat(2,1fr);gap:.65rem}
+  .tri-card{padding:1rem .85rem;gap:.55rem}
+  .tri-ico{width:28px;height:28px}
+  .tri-box{width:24px;height:24px;border-radius:7px}
+  .tri-txt{font-size:.99rem;line-height:1.24}
+  .tri-result{margin-top:1.2rem;padding:1.15rem 1.15rem 1.25rem;gap:.9rem}
+  .tri-msg{flex:1 1 100%;font-size:1rem}
+  .tri-result .btn{width:100%}
+
+  /* ---- 11. Areas ---- */
+  .areas{gap:.7rem}
+  .area-cab h3{font-size:1.12rem}
+  .area-frase{font-size:.99rem}
+  .area-ico{width:30px;height:30px}
+  .numeros{gap:.45rem;margin-top:.75rem}
+  .numeros b{padding:.45rem .8rem;font-size:1.15rem}
+  .numeros b span{font-size:.78rem}
+  .area-corpo{gap:1rem}
+  .checks li,.conta li{font-size:1rem;padding-top:.65rem;padding-bottom:.65rem}
+  .callout{padding:1rem 1.1rem;gap:.8rem}
+  .callout p{font-size:.97rem}
+
+  /* ---- 13/14. Travas e passos ---- */
+  .travas{gap:.7rem}
+  .trava{padding:1.25rem 1.15rem}
+  .trava h3{font-size:1.12rem;margin-bottom:.65rem}
+  .trava p{font-size:1rem;line-height:1.62}
+
+  .steps{grid-template-columns:repeat(2,1fr);gap:.65rem}
+  .step{padding:1.15rem 1rem 1.1rem}
+  .step::before{width:32px;height:32px;font-size:1rem;margin-bottom:.6rem}
+  .step h3{font-size:1.03rem;line-height:1.25}
+  .step p{font-size:.92rem;line-height:1.55}
+
+  /* ---- 15. Onde a gente fica: os dois botoes na mesma linha ---- */
+  .onde{gap:1.4rem}
+  .endereco{padding:1.15rem 1.15rem;margin:1.15rem 0}
+  .endereco p{font-size:.96rem}
+  .onde .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .onde .btn-row .btn{padding:.9rem .5rem;font-size:.85rem;letter-spacing:-.01em;gap:.4rem}
+  .onde .btn-row .btn svg{width:17px;height:17px}
+  .onde-legenda{font-size:.92rem}
+
+  /* ---- 16. Recado ---- */
+  .recado{gap:1.25rem}
+  .recado>figure .foto-slot{max-width:56%;margin-inline:0;aspect-ratio:4/5}
+  .recado>figure img{max-width:58%;aspect-ratio:4/5;object-fit:cover;object-position:top}
+  .carta{padding:1.3rem 1.2rem}
+  .carta p{font-size:1.03rem;line-height:1.7;margin-bottom:.8rem}
+  .assinatura{margin-top:1.2rem;padding-top:1.1rem;gap:.75rem}
+  .assinatura .nome{font-size:1.2rem}
+
+  /* ---- 17/18. FAQ e fechamento ---- */
+  .faq summary{padding:1rem 1.1rem;font-size:1.03rem;gap:.7rem}
+  .faq .answer{padding:0 1.1rem 1.1rem;font-size:.98rem}
+  .garantias{margin-top:1.5rem;gap:.5rem}
+  .garantias li{font-size:.98rem}
+  .final .aviso{margin-top:1.75rem}
+
+  /* ---- 19. Rodape: contato e endereco lado a lado ---- */
+  .site-footer{padding-block:2.5rem 2.75rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem 1.1rem}
+  .foot-brand{grid-column:1/-1}
+  .site-footer .foot-brand img{width:145px;margin-bottom:.7rem}
+  .footer-grid>div:last-child{grid-column:1/-1}
+  .site-footer p,.site-footer li{font-size:.83rem}
+  .foot-legal{margin-top:1.8rem;padding-top:1.2rem;gap:.7rem}
+
+  /* ---- 20. WhatsApp: barra com texto, largura cheia ----
+     A bolinha sem texto so funciona para quem ja sabe o que ela faz.
+     Barra escrita e o que o publico reconhece e toca. */
+  .wa-bar{
+    left:0;right:0;bottom:0;
+    width:auto;height:auto;gap:.6rem;
+    padding:.95rem 1rem;
+    padding-bottom:calc(.95rem + env(safe-area-inset-bottom,0px));
+    border-radius:0;border:0;
+    font-size:1.06rem;
+    box-shadow:0 -10px 30px -8px rgba(0,0,0,.4);
+  }
+  .wa-bar__txt{display:inline}
+  .wa-bar svg{width:24px;height:24px}
+}
+
+/* telas bem estreitas: o titulo do heroi nao pode quebrar feio */
+@media(max-width:359px){
+  .hero-grid{grid-template-columns:1fr 108px}
+  .hero h1{font-size:1.42rem}
+  .tri-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+}
+
+
+/* ==========================================================================
+   23. EQUIPE — pedido do cliente: a pagina mostra o time, com foto e OAB.
+   Vem depois do recado do Dr. Joao: primeiro "onde", depois "quem".
+   ========================================================================== */
+.equipe-head{margin:clamp(2.5rem,5vw,3.5rem) 0 1.35rem}
+.equipe-head h3{
+  font-size:clamp(1.3rem,2.2vw,1.6rem);color:var(--paper);
+  letter-spacing:-.02em;margin-bottom:.5rem;
+}
+.equipe-head p{font-size:1rem;line-height:1.6;color:#A9B3C6;max-width:52ch;margin:0}
+
+/* Uma foto do time junto vale mais que quatro retratos avulsos: fotos
+   tiradas em contextos diferentes leem como pessoas soltas. */
+.time{display:grid;gap:clamp(1.25rem,3vw,2rem);align-items:center;grid-template-columns:1fr}
+@media(min-width:820px){
+  .time{grid-template-columns:.9fr 1.1fr;align-items:stretch}
+  /* cada cartao ocupa um terco da altura da foto, com o texto centrado:
+     centralizar a coluna deixava vazio embaixo, e espacar abria buracos */
+  .time-lista{grid-template-rows:repeat(3,1fr)}
+  .time-lista li{justify-content:center}
+}
+
+.time-foto{margin:0}
+.time-foto img{
+  width:100%;border-radius:var(--r-panel);
+  border:1px solid var(--navy-600);
+  box-shadow:0 24px 48px -26px rgba(0,0,0,.8);
+}
+
+.time-lista{display:grid;gap:.7rem}
+.time-lista li{
+  display:flex;flex-direction:column;gap:.28rem;
+  padding:1rem 1.15rem;
+  background:var(--navy-800);border:1px solid var(--navy-600);
+  border-radius:var(--r-card);
+}
+.membro-nome{
+  font-family:var(--font-display);font-weight:800;font-size:1.08rem;
+  line-height:1.25;letter-spacing:-.015em;color:var(--paper);
+}
+.membro-oab{
+  font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold-400);
+}
+.membro-faz{font-size:.96rem;line-height:1.5;color:#A9B3C6;margin:0}
+
+@media(max-width:759px){
+  .time{gap:1.1rem}
+  /* a foto e vertical: em largura cheia ela come uma tela inteira do celular.
+     O corte quadrado a partir do topo mantem os tres rostos e devolve o espaco. */
+  .time-foto img{
+    border-radius:var(--r-card);
+    aspect-ratio:1;object-fit:cover;object-position:center 22%;
+  }
+  .time-lista{gap:.55rem}
+  .time-lista li{padding:.85rem .95rem}
+  .membro-nome{font-size:1rem}
+  .membro-oab{font-size:.72rem}
+  .membro-faz{font-size:.9rem}
+}
+
+/* Foto da sala na secao "Passa aqui" */
+.onde-foto{margin:0}
+.onde-foto img{
+  width:100%;border-radius:var(--r-panel);
+  border:1px solid rgba(20,26,43,.1);
+  box-shadow:var(--shadow-card);
+}
+@media(max-width:759px){
+  .onde-foto img{
+    border-radius:var(--r-card);
+    aspect-ratio:1;object-fit:cover;object-position:center 28%;
+  }
+}
+
+/* ==========================================================================
+   24. HORA EXTRA EM DESTAQUE — pedido do Dr. Joao.
+   O bloco sobe, abre por padrao e ganha moldura propria. Sem promessa
+   de resultado: o destaque e visual, o texto continua o mesmo.
+   ========================================================================== */
+.area--destaque{
+  border:2px solid var(--wa);
+  box-shadow:0 2px 4px rgba(20,26,43,.05), 0 22px 44px -20px rgba(15,169,88,.4);
+}
+.area--destaque::before{height:0}
+.area--destaque>summary{padding-top:1.15rem}
+.area--destaque[open],.area--destaque:hover{border-color:var(--wa-escuro)}
+.selo-destaque{
+  display:inline-flex;align-items:center;gap:.45rem;
+  margin:0 0 .6rem;padding:.35rem .75rem;border-radius:999px;
+  background:#EAF7F0;color:var(--wa-escuro);
+  font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+}
+.selo-destaque svg{width:14px;height:14px;flex:none}
+@media(max-width:759px){
+  .selo-destaque{font-size:.66rem;padding:.3rem .6rem;margin-bottom:.5rem}
+}
