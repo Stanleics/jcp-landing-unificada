@@ -39,13 +39,25 @@ inclusive a pasta `fotos/`, que guarda os originais em alta e não deve ir
 para o servidor. O caso está em
 [`../documentacao/09-publicacao-cloudflare.md`](../documentacao/09-publicacao-cloudflare.md).
 
-O GitHub Pages em `felipefc100.github.io/jcp-landing-unificada` deixou de
-ser o caminho de publicação. O endereço final da página é
-**`https://jcp.adv.br/`**, decidido pelo cliente em 13/09: a LP vai para
-o endereço principal, sem www, no lugar do site atual.
-Depende da migração de DNS e de uma confirmação do escritório sobre o
-site que sai. Ver
-[`../documentacao/09-publicacao-cloudflare.md`](../documentacao/09-publicacao-cloudflare.md).
+**A LP está no ar em `https://jcp.adv.br/` desde 14/09/2026.** Ela
+substituiu o WordPress que servia o endereço. O `www` também responde, e
+a URL `.workers.dev` continua servindo de conferência. O passo a passo da
+virada e as armadilhas que encontramos estão em
+[`../documentacao/14-lp-no-ar.md`](../documentacao/14-lp-no-ar.md).
+
+Dois cuidados que moram no `wrangler.jsonc` e não devem ser removidos:
+
+- `"workers_dev": true` — sem essa linha o deploy seguinte **desliga** a
+  URL `.workers.dev` de conferência. Aconteceu em 14/09.
+- `routes` com `custom_domain: true` — é o que liga o domínio ao Worker.
+  Não trocar por Workers Route: rota exige um registro apontando para uma
+  origem, e a origem era o servidor da agência anterior, que continuava
+  servindo o site velho por trás do proxy.
+
+O GitHub Pages em `stanleics.github.io/jcp-landing-unificada` foi
+**desligado** em 14/09. Ele servia a raiz do repositório público e, se
+tivesse continuado ligado, publicaria uma cópia paralela da LP com o GTM
+disparando eventos reais no contêiner do cliente.
 
 Ao alterar CSS, JavaScript ou imagem, suba o `?v=` da referência
 correspondente, para furar o cache de quem já visitou. O CSS e o
@@ -71,9 +83,13 @@ leva e cria o aviso de cookies, que ela promete. Ver
 [`../documentacao/13-politica-de-privacidade.md`](../documentacao/13-politica-de-privacidade.md).
 
 O e-mail `contato@jcp.adv.br`, que as duas páginas publicam, **ainda não
-existe como caixa**. Não é DNS: o MX já entrega no servidor certo, falta
-criar a conta ou um encaminhador no cPanel. Criar antes de apontar o
-domínio para a LP.
+recebe nada**. O plano de criar um encaminhador no cPanel morreu: a
+agência anterior não repassou o acesso ao painel. Como o escritório
+confirmou que nunca usou nenhum endereço `@jcp.adv.br`, o e-mail do
+domínio migrou para o Cloudflare Email Routing — que está **ativado, mas
+não terminado**. Faltam cadastrar o destino, clicar no link de
+verificação que chega nele, e criar a regra. Ver
+[`../documentacao/14-lp-no-ar.md`](../documentacao/14-lp-no-ar.md).
 
 O bloco 4, do vídeo, está **fora do ar desde 13 de setembro**, a pedido
 do cliente, até existir uma gravação em formato wide e boa resolução. Ele

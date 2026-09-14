@@ -1,7 +1,27 @@
-; Zona jcp.adv.br — retrato do DNS atual (ns1/ns2.aweb.marketing -> supercp.com)
-; Gerado em 2026-09-10 a partir das respostas publicas, para importar na Cloudflare.
-; Confira contra o que o scan da Cloudflare trouxer: o que faltar, cria a mao.
-; ATENCAO: tudo aqui e DNS-only (nuvem CINZA). So o registro da LP fica na Cloudflare.
+; Zona jcp.adv.br — DOCUMENTO HISTORICO. Nao e mais o retrato do DNS atual.
+;
+; Gerado em 2026-09-10 a partir das respostas publicas de ns1/ns2.aweb.marketing,
+; para servir de conferencia na importacao para a Cloudflare. Essa importacao
+; ACONTECEU em 14/09/2026 e a zona hoje vive na Cloudflare, com nameservers
+; arely.ns.cloudflare.com e tim.ns.cloudflare.com.
+;
+; O QUE MUDOU depois deste retrato (ver ../../documentacao/14-lp-no-ar.md):
+;   - A de jcp.adv.br e CNAME de www: APAGADOS. Quem serve o apex e o www
+;     agora e o Worker jcp-lp-trabalhista, por Custom Domain, e a propria
+;     Cloudflare gerencia esses registros.
+;   - MX: APAGADO. O e-mail do dominio passou para o Cloudflare Email
+;     Routing, que instalou os proprios MX (route1/2/3.mx.cloudflare.net).
+;   - TXT de SPF: APAGADO de proposito. O SPF hoje e o da Cloudflare,
+;     "v=spf1 include:_spf.mx.cloudflare.net ~all". Dois SPF no mesmo
+;     dominio invalidam a checagem, por isso o antigo saiu — o que tambem
+;     resolveu a limpeza do "+a" que este arquivo pedia mais abaixo.
+;   - Os A de mail, webmail, cpanel, whm, ftp, autodiscover, autoconfig,
+;     cpcalendars, cpcontacts e webdisk continuam como estao, apontando
+;     para 68.66.226.89.
+;
+; O scan da Cloudflare trouxe MAIS coisa do que este arquivo registrou:
+; os SRV e TXT de CalDAV/CardDAV e os TXT _acme-challenge e _cpanel-dcv.
+; Este retrato foi feito a mao e nao pegou registros incomuns.
 $TTL 3600
 
 ; ---- site atual (WordPress no cPanel) ----
@@ -29,19 +49,26 @@ cpcontacts.              IN A     68.66.226.89
 webdisk.                 IN A     68.66.226.89
 _autodiscover._tcp.      IN SRV   0 0 443 cpanelemaildiscovery.cpanel.net.
 
-; ---- contato@jcp.adv.br: PENDENTE, e nao e registro de DNS ----
-; A LP e a Politica de Privacidade publicam contato@jcp.adv.br desde
-; 13/09/2026, mas a caixa ainda NAO existe. Nao procure registro faltando
-; aqui: o MX acima ja entrega em mail.jcp.adv.br (68.66.226.89), entao o
-; DNS esta completo. O que falta e criar a conta, ou um encaminhador, no
-; cPanel desse mesmo servidor, apontando para joaofilipemc@gmail.com.
+; ---- contato@jcp.adv.br: AINDA PENDENTE, mas por outro motivo ----
+; ATENCAO: a instrucao que estava aqui ("nao virar o dominio para a LP
+; antes disso") ficou para tras. O dominio FOI virado em 14/09/2026, com
+; a caixa ainda sem funcionar, por decisao consciente do Stanlei. Fica
+; registrado como risco aceito, nao como regra violada por descuido.
+;
+; O plano original — criar um encaminhador no cPanel — MORREU: a agencia
+; anterior nao repassou o acesso ao painel e o escritorio nao tem login.
+;
+; O caminho agora e outro: o escritorio confirmou que NUNCA usou nenhum
+; endereco @jcp.adv.br, entao o MX do dominio inteiro migrou para o
+; Cloudflare Email Routing. Falta terminar a configuracao la:
+;   1. cadastrar joaofilipemc@gmail.com em "Enderecos de destino";
+;   2. alguem com acesso a esse Gmail clicar no link de verificacao;
+;   3. criar a regra contato@jcp.adv.br -> esse destino.
+; Sem os tres, nada e entregue. Ver ../../documentacao/14-lp-no-ar.md.
 ;
 ; Enquanto nao existir, quem escrever para exercer direito da LGPD toma
-; devolucao. Nao virar o dominio para a LP antes disso.
-;
-; E preciso sobreviver a decisao de tirar o site atual do ar: se a
-; hospedagem for CANCELADA, o e-mail do escritorio inteiro cai junto, este
-; alias tambem. Ver 04-pendencias.md, item 1b.
+; devolucao — e a Politica de Privacidade oferece esse endereco como o
+; canal para isso.
 
 ; ---- SPF e DKIM (texto exato, nao reescrever) ----
 jcp.adv.br.              IN TXT   "v=spf1 ip4:68.66.226.89 include:spf.supercp.com +a +mx +ip4:68.66.224.4 ~all"
