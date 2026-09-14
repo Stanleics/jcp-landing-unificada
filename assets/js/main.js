@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var FONE = '5561996275602';
+  var FONE = '5561982533524';
 
   /* Mensagem pronta por assunto — bloco 1 da copy */
   var MSG = {
@@ -60,9 +60,6 @@
     if (hT) hT.textContent = v.titulo;
     if (hX) hX.textContent = v.texto;
 
-    var alvo = byId(caso);
-    if (alvo && alvo.tagName === 'DETAILS') alvo.open = true;
-
     /* o botao do heroi ja sai com a mensagem do assunto do anuncio */
     var btnHeroi = document.querySelector('.hero .btn--wa');
     if (btnHeroi && MSG[caso]) btnHeroi.href = link(MSG[caso]);
@@ -107,15 +104,7 @@
       if (finalEl) finalEl.href = href;
     };
 
-    form.addEventListener('change', function (ev) {
-      atualizar();
-      /* marcou um cartao: ja abre o assunto certo la embaixo */
-      var alvo = ev.target.getAttribute('data-area');
-      if (ev.target.checked && alvo) {
-        var det = byId(alvo);
-        if (det && det.tagName === 'DETAILS') det.open = true;
-      }
-    });
+    form.addEventListener('change', atualizar);
     form.addEventListener('submit', function (e) { e.preventDefault(); });
     atualizar();
   }
@@ -152,7 +141,68 @@
   }
 
   /* ------------------------------------------------------------------
-     4. FAQ: so uma resposta aberta por vez
+     4. Medicao: avisa o GTM a cada clique de WhatsApp, dizendo de onde
+        veio. Sem isso o GTM so enxerga "houve um clique" e nao da pra
+        saber qual area converte, que e a pergunta que motivou medir.
+
+        A area sai da propria estrutura da pagina, nao de um atributo
+        escrito a mao em cada botao: assim um botao novo ja nasce medido e
+        nada quebra se um bloco mudar de lugar.
+
+        Nenhum dado de quem visita e enviado aqui: so de onde foi o clique.
+     ------------------------------------------------------------------ */
+  window.dataLayer = window.dataLayer || [];
+
+  var maisProximo = function (el, seletor) {
+    if (el.closest) return el.closest(seletor);
+    while (el && el.nodeType === 1) {            /* navegador antigo */
+      if (el.matches && el.matches(seletor)) return el;
+      el = el.parentNode;
+    }
+    return null;
+  };
+
+  var ondeEstou = function (el) {
+    var explicito = el.getAttribute('data-wa');
+    var cartao = maisProximo(el, 'article.area');
+    var secao = maisProximo(el, 'section');
+
+    /* A barra fixa, o rodape e o cabecalho ficam fora de qualquer <section>,
+       e o heroi e a unica <section> sem id. Sem estes quatro casos, tudo que
+       nao esta numa secao com id cai no mesmo balde e a medicao mente. */
+    var blocoId;
+    if (el.id === 'wa-bar')                   blocoId = 'barra-fixa';
+    else if (maisProximo(el, 'footer'))       blocoId = 'rodape';
+    else if (maisProximo(el, 'header'))       blocoId = 'cabecalho';
+    else if (secao && secao.id)               blocoId = secao.id;
+    else if (maisProximo(el, 'section.hero')) blocoId = 'heroi';
+    else                                      blocoId = 'outro';
+
+    /* o cartao de area e mais especifico que a secao que o contem */
+    var area = (cartao && cartao.id) || (explicito && explicito !== 'generico' ? explicito : '') || blocoId;
+    return { area: area, bloco: blocoId };
+  };
+
+  document.addEventListener('click', function (e) {
+    var alvo = maisProximo(e.target, 'a[href*="wa.me"]');
+    if (!alvo) return;
+
+    var lugar = ondeEstou(alvo);
+    var evento = {
+      event: 'clique_whatsapp',
+      wa_area: lugar.area,
+      wa_bloco: lugar.bloco,
+      wa_rotulo: (alvo.textContent || '').replace(/\s+/g, ' ').trim()
+    };
+
+    /* no triador, o que importa e a combinacao que a pessoa marcou */
+    if (marcados.length) evento.wa_marcados = marcados.join(',');
+
+    window.dataLayer.push(evento);
+  }, true);
+
+  /* ------------------------------------------------------------------
+     5. FAQ: so uma resposta aberta por vez
      ------------------------------------------------------------------ */
   var faq = document.querySelectorAll('.faq details');
   for (var j = 0; j < faq.length; j++) {
@@ -163,17 +213,4 @@
       }
     });
   }
-
-  /* ------------------------------------------------------------------
-     5. Link direto para uma area (#acidente) abre o acordeao
-     ------------------------------------------------------------------ */
-  var abrirPeloHash = function () {
-    var h = window.location.hash;
-    if (!h || h.length < 2) return;
-    var el;
-    try { el = document.querySelector(h); } catch (e) { return; }
-    if (el && el.tagName === 'DETAILS') el.open = true;
-  };
-  window.addEventListener('hashchange', abrirPeloHash);
-  abrirPeloHash();
 })();

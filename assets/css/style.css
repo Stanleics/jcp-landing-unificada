@@ -89,14 +89,7 @@ h4{font-size:1.08rem;line-height:1.35}
   font-family:var(--font-body);font-weight:800;font-size:.8rem;
   letter-spacing:.1em;text-transform:uppercase;color:var(--gold-600);
 }
-.chapeu::before{content:"";width:26px;height:2px;background:currentColor;flex:none;border-radius:2px}
 .bg-navy .chapeu{color:var(--gold-400)}
-
-.sub-title{
-  font-family:var(--font-display);font-weight:800;
-  font-size:1.2rem;color:var(--ink);line-height:1.25;margin:0 0 1.1rem;
-}
-.bg-navy .sub-title{color:var(--paper)}
 
 /* ---------- 4. Layout ---------- */
 .wrap{width:min(var(--wrap),100% - 2.5rem);margin-inline:auto}
@@ -318,7 +311,7 @@ section[id]{scroll-margin-top:80px}
 .tri-msg{flex:1 1 260px;font-size:1.05rem;line-height:1.6;color:var(--ink-soft);min-width:0;margin:0}
 .tri-msg strong{color:var(--ink);font-weight:800}
 
-/* ---------- 11. Areas (acordeao) ---------- */
+/* ---------- 11. Areas (cartoes) ---------- */
 .areas{display:grid;gap:.9rem}
 .area{
   background:var(--white);border:1px solid rgba(20,26,43,.08);
@@ -326,95 +319,23 @@ section[id]{scroll-margin-top:80px}
   transition:border-color .18s ease;
 }
 .area::before{content:none}
-.area[open],.area:hover{border-color:var(--navy-600)}
-.area>summary{
-  display:flex;align-items:flex-start;gap:1rem;
-  padding:1.4rem 1.5rem;cursor:pointer;list-style:none;
-}
-.area>summary::-webkit-details-marker{display:none}
-.area>summary::after{
-  content:"";flex:none;width:13px;height:13px;margin:.55rem 0 0 auto;
-  border-right:3px solid var(--navy-700);border-bottom:3px solid var(--navy-700);
-  rotate:45deg;transition:rotate .2s ease;
-}
-.area[open]>summary::after{rotate:-135deg;margin-top:.9rem}
+.area:hover{border-color:var(--navy-600)}
+.area-topo{display:flex;align-items:flex-start;gap:1rem;padding:1.4rem 1.5rem 1.5rem}
+.area-cta{margin-top:1.15rem}
 .area-ico{width:38px;height:38px;flex:none;color:var(--svc);margin-top:.1rem}
 .area-cab{display:block;min-width:0}
 .area-cab h3{margin-bottom:.5rem;text-transform:none;letter-spacing:0}
-.area-frase{display:block;font-size:1.02rem;line-height:1.55;color:var(--ink-soft)}
+.area-frase{display:block;font-size:1.02rem;line-height:1.55;color:var(--ink-soft);margin:0}
 
-.numeros{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.9rem}
-.numeros b{
-  display:inline-flex;align-items:baseline;gap:.45rem;
-  padding:.5rem 1rem;border-radius:999px;
-  background:#EAF7F0;border:1px solid rgba(15,169,88,.3);
-  font-family:var(--font-display);font-weight:800;letter-spacing:-.02em;
-  font-size:1.35rem;line-height:1;color:var(--wa-escuro);
-}
-.numeros b span{
-  font-family:var(--font-body);font-weight:700;
-  font-size:.84rem;line-height:1.3;color:var(--ink-soft);letter-spacing:0;
-}
-.area-corpo{padding:0 1.5rem 1.6rem;display:grid;gap:1.5rem}
 @media(max-width:560px){
-  .area>summary{padding:1.2rem 1.15rem;gap:.75rem}
-  .area-corpo{padding:0 1.15rem 1.4rem}
+  .area-topo{padding:1.2rem 1.15rem 1.3rem;gap:.75rem}
+  .area-cta{margin-top:1rem}
+  .area-cta .btn{width:100%}
 }
 
-/* ---------- 12. Listas dentro das areas ---------- */
-.painel{
-  background:var(--paper);border:1px solid rgba(20,26,43,.07);
-  border-radius:var(--r-panel);padding:clamp(1.2rem,2.5vw,1.6rem);
-}
-.checks{display:grid;grid-template-columns:1fr}
-@media(min-width:760px){.checks{grid-template-columns:repeat(2,1fr);column-gap:2.25rem}}
-/* bloco, nao flex: em flex cada <strong> vira uma coluna separada do texto */
-.checks li{
-  position:relative;display:block;padding:.75rem 0 .75rem 2.3rem;
-  border-bottom:1px solid rgba(20,26,43,.08);
-  font-size:1.05rem;line-height:1.55;color:var(--ink-soft);
-}
-.checks li::before{
-  content:"\2713";position:absolute;left:0;top:.76rem;
-  width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
-  background:#DDF3E7;color:var(--wa-escuro);
-  font-size:.8rem;font-weight:800;line-height:1;
-}
-
-.conta{
-  position:relative;overflow:hidden;
-  background:linear-gradient(180deg,#FFFFFF,#F4FCF7);
-  border:1px solid rgba(15,169,88,.28);border-radius:var(--r-panel);
-  padding:clamp(1.2rem,2.5vw,1.6rem);
-}
-.conta::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--wa)}
-.conta ul{display:grid;grid-template-columns:1fr}
-@media(min-width:720px){.conta ul{grid-template-columns:repeat(2,1fr);column-gap:2.25rem}}
-.conta li{
-  position:relative;display:block;padding:.7rem 0 .7rem 1.3rem;
-  border-bottom:1px solid rgba(15,169,88,.16);
-  font-size:1.05rem;line-height:1.55;color:var(--ink-soft);
-}
-.conta li::before{
-  content:"+";position:absolute;left:0;top:.72rem;
-  color:var(--wa-escuro);font-weight:800;font-size:1.1rem;line-height:1.5;
-}
-
-.callout{
-  display:flex;gap:1rem;padding:1.2rem 1.35rem;border-radius:var(--r-panel);
-  background:var(--white);border:1px solid rgba(20,26,43,.07);
-  border-left:3px solid var(--gold-500);
-}
-.callout svg{width:22px;height:22px;flex:none;color:var(--gold-600);margin-top:2px}
-.callout p{font-size:1.02rem;line-height:1.62}
-.callout strong{color:var(--ink);font-weight:800}
-.bg-navy .callout{background:var(--navy-800);border-color:var(--navy-600);border-left-color:var(--gold-500);color:#C3CAD8}
-.bg-navy .callout strong{color:var(--paper)}
-.bg-navy .callout svg{color:var(--gold-400)}
-
-/* ---------- 13. As tres travas ---------- */
+/* ---------- 13. As travas ---------- */
 .travas{display:grid;gap:1rem;grid-template-columns:1fr}
-@media(min-width:900px){.travas{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.travas{grid-template-columns:repeat(2,1fr)}}
 .trava{
   padding:1.6rem 1.5rem;border-radius:var(--r-panel);
   background:var(--navy-800);border:1px solid var(--navy-600);
@@ -660,13 +581,6 @@ section[id]{scroll-margin-top:80px}
   .area-cab h3{font-size:1.12rem}
   .area-frase{font-size:.99rem}
   .area-ico{width:30px;height:30px}
-  .numeros{gap:.45rem;margin-top:.75rem}
-  .numeros b{padding:.45rem .8rem;font-size:1.15rem}
-  .numeros b span{font-size:.78rem}
-  .area-corpo{gap:1rem}
-  .checks li,.conta li{font-size:1rem;padding-top:.65rem;padding-bottom:.65rem}
-  .callout{padding:1rem 1.1rem;gap:.8rem}
-  .callout p{font-size:.97rem}
 
   /* ---- 13/14. Travas e passos ---- */
   .travas{gap:.7rem}
@@ -755,9 +669,11 @@ section[id]{scroll-margin-top:80px}
 .time{display:grid;gap:clamp(1.25rem,3vw,2rem);align-items:center;grid-template-columns:1fr}
 @media(min-width:820px){
   .time{grid-template-columns:.9fr 1.1fr;align-items:stretch}
-  /* cada cartao ocupa um terco da altura da foto, com o texto centrado:
-     centralizar a coluna deixava vazio embaixo, e espacar abria buracos */
-  .time-lista{grid-template-rows:repeat(3,1fr)}
+  /* os cartoes dividem a altura da foto em partes iguais, com o texto
+     centrado: centralizar a coluna deixava vazio embaixo, e espacar abria
+     buracos. grid-auto-rows em vez de repeat(N,1fr) para nao ter que mexer
+     no CSS toda vez que entra ou sai alguem da equipe. */
+  .time-lista{grid-auto-rows:1fr}
   .time-lista li{justify-content:center}
 }
 
@@ -779,7 +695,10 @@ section[id]{scroll-margin-top:80px}
   font-family:var(--font-display);font-weight:800;font-size:1.08rem;
   line-height:1.25;letter-spacing:-.015em;color:var(--paper);
 }
-.membro-oab{
+/* .membro-papel e a funcao de quem nao tem OAB, como a secretaria. Divide o
+   desenho com .membro-oab de proposito: em dourado igual, os cartoes leem
+   como um time so. Em cinza, o cartao sem OAB leria como membro de segunda. */
+.membro-oab,.membro-papel{
   font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--gold-400);
 }
@@ -788,7 +707,7 @@ section[id]{scroll-margin-top:80px}
 @media(max-width:759px){
   .time{gap:1.1rem}
   /* a foto e vertical: em largura cheia ela come uma tela inteira do celular.
-     O corte quadrado a partir do topo mantem os tres rostos e devolve o espaco. */
+     O corte quadrado a partir do topo mantem os rostos e devolve o espaco. */
   .time-foto img{
     border-radius:var(--r-card);
     aspect-ratio:1;object-fit:cover;object-position:center 22%;
@@ -796,7 +715,7 @@ section[id]{scroll-margin-top:80px}
   .time-lista{gap:.55rem}
   .time-lista li{padding:.85rem .95rem}
   .membro-nome{font-size:1rem}
-  .membro-oab{font-size:.72rem}
+  .membro-oab,.membro-papel{font-size:.72rem}
   .membro-faz{font-size:.9rem}
 }
 
@@ -816,16 +735,16 @@ section[id]{scroll-margin-top:80px}
 
 /* ==========================================================================
    24. HORA EXTRA EM DESTAQUE — pedido do Dr. Joao.
-   O bloco sobe, abre por padrao e ganha moldura propria. Sem promessa
-   de resultado: o destaque e visual, o texto continua o mesmo.
+   O cartao sobe e ganha moldura propria. Sem promessa de resultado:
+   o destaque e visual, o texto continua o mesmo.
    ========================================================================== */
 .area--destaque{
   border:2px solid var(--wa);
   box-shadow:0 2px 4px rgba(20,26,43,.05), 0 22px 44px -20px rgba(15,169,88,.4);
 }
 .area--destaque::before{height:0}
-.area--destaque>summary{padding-top:1.15rem}
-.area--destaque[open],.area--destaque:hover{border-color:var(--wa-escuro)}
+.area--destaque .area-topo{padding-top:1.15rem}
+.area--destaque:hover{border-color:var(--wa-escuro)}
 .selo-destaque{
   display:inline-flex;align-items:center;gap:.45rem;
   margin:0 0 .6rem;padding:.35rem .75rem;border-radius:999px;
