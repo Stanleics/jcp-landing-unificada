@@ -59,11 +59,33 @@ O GitHub Pages em `stanleics.github.io/jcp-landing-unificada` foi
 tivesse continuado ligado, publicaria uma cópia paralela da LP com o GTM
 disparando eventos reais no contêiner do cliente.
 
+## Cache: subir o `?v=` deixou de ser boa prática
+
 Ao alterar CSS, JavaScript ou imagem, suba o `?v=` da referência
-correspondente, para furar o cache de quem já visitou. **No ar**, o CSS e o
-JavaScript estão em `v=16`, a foto da equipe em `v=15`, a foto da sala em
-`v=14`; os arquivos que não mudaram seguem em `v=12`, de propósito, para
-não forçar download repetido em quem usa dado pré-pago.
+correspondente. **No ar**, o CSS está em `v=16`, o JavaScript em `v=19`
+(nas duas páginas), a foto da equipe em `v=15`, a foto da sala em `v=14`;
+os arquivos que não mudaram seguem em `v=12`, de propósito, para não
+forçar download repetido em quem usa dado pré-pago.
+
+**Desde 14/09/2026 existe um `_headers` na raiz**, copiado para `dist/`
+pelo `publicar.sh`. Ele separa duas coisas que o Worker servia igual:
+
+| | |
+|---|---|
+| HTML (`/`, a política, `*.html`) | `no-cache, must-revalidate` — revalida sempre |
+| `/assets/*` | `public, max-age=31536000, immutable` — um ano, sem perguntar |
+
+Antes dele o Worker servia **tudo**, inclusive CSS, JS, imagens e vídeo,
+com `public, max-age=0, must-revalidate`: o HTML já estava certo por
+padrão, e os assets é que revalidavam a cada carregamento. A disciplina
+do `?v=` existia e o navegador perguntava de novo assim mesmo.
+
+**O preço disso é que o descuido deixou de se corrigir sozinho.**
+`immutable` manda o navegador nem perguntar. Alterar um arquivo em
+`assets/` sem subir o `?v=` deixa quem já visitou com a versão velha por
+um ano, e recarga normal não resolve. Antes, o mesmo erro se consertava
+na visita seguinte. Foi exatamente esse descuido que deixou a política em
+`main.js?v=16` enquanto o `index.html` estava em `v=18`.
 
 A `politica-de-privacidade.html` foge da regra por um motivo: o estilo só
 dela mora num `<style>` dentro do próprio arquivo. São ~1,2 KB que não

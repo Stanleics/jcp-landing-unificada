@@ -12,6 +12,9 @@ cd "$(dirname "$0")"
 rm -rf dist
 mkdir dist
 cp index.html politica-de-privacidade.html dist/
+# _headers tem que ficar na raiz de dist/, ao lado do index.html:
+# e de la que o Cloudflare le as regras de cache.
+cp _headers dist/
 rsync -a --exclude='.DS_Store' assets dist/
 
 echo "Vai para o ar:"
