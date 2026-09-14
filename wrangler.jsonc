@@ -7,9 +7,32 @@
   // Desligado de proposito: com preview ligado, cada versao antiga ganha uma
   // URL publica propria — inclusive a primeira, que subiu a pasta inteira.
   "preview_urls": false,
+  // Precisa estar explicito: sem esta linha o wrangler DESLIGA a URL
+  // .workers.dev no deploy seguinte, e foi o que aconteceu em 14/09/2026.
+  // Ela e o endereco de conferencia que o cliente usa.
+  "workers_dev": true,
   "compatibility_date": "2026-09-10",
+  // Dominio final da LP, decidido pelo cliente em 13/09/2026.
+  // custom_domain cria e gerencia o registro DNS sozinho (nuvem laranja) e
+  // emite o certificado. E o que corta a dependencia do servidor antigo:
+  // ROTA (workers route) nao serve aqui, porque ela exige um registro A
+  // apontando para uma origem — e a origem era o cPanel da agencia anterior,
+  // que continuava servindo o WordPress velho por tras do proxy.
+  // O www entra junto para nao cair em erro 1016: o CNAME cinza dele
+  // apontava para o apex proxiado, combinacao que a Cloudflare recusa.
+  "routes": [
+    { "pattern": "jcp.adv.br", "custom_domain": true },
+    { "pattern": "www.jcp.adv.br", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    // PROVISORIO (14/09/2026): entrega a LP em qualquer caminho, para que as
+    // 12 URLs antigas do WordPress (/trabalhista/, /inss/, etc.) nao caiam em
+    // 404 para quem chega por busca ou link velho.
+    // O certo ainda e uma Redirect Rule 301 no painel, que transfere o
+    // historico de SEO em vez de duplicar conteudo; esta linha volta para
+    // "404-page" quando a regra existir. O <link rel=canonical> do index.html
+    // aponta para a raiz e segura a duplicacao enquanto isso.
+    "not_found_handling": "single-page-application"
   }
 }
