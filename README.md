@@ -60,7 +60,7 @@ tivesse continuado ligado, publicaria uma cópia paralela da LP com o GTM
 disparando eventos reais no contêiner do cliente.
 
 Ao alterar CSS, JavaScript ou imagem, suba o `?v=` da referência
-correspondente, para furar o cache de quem já visitou. O CSS e o
+correspondente, para furar o cache de quem já visitou. **No ar**, o CSS e o
 JavaScript estão em `v=16`, a foto da equipe em `v=15`, a foto da sala em
 `v=14`; os arquivos que não mudaram seguem em `v=12`, de propósito, para
 não forçar download repetido em quem usa dado pré-pago.
@@ -70,17 +70,26 @@ dela mora num `<style>` dentro do próprio arquivo. São ~1,2 KB que não
 valem subir o `?v=` do `style.css` e obrigar todo mundo que já visitou a
 baixar o CSS inteiro de novo.
 
+## Há trabalho pronto que não está no ar
+
+O ramo **`medicao-ref-e-caso`** traz o código de referência no texto do
+WhatsApp, os campos `caso`, `wa_ref` e `wa_gclid` no evento de clique, o
+evento `selecao_triador` e a Política de Privacidade reescrita em seis
+lugares. Ali o `main.js` está em `v=18`.
+
+**Não publique esse ramo ainda.** O item 3 da política descreve o estado
+final e afirma três coisas que ainda não existem na página: GA4 ligado no
+GTM, tags de anúncio com gatilho preso ao consentimento, e **o aviso de
+cookies com escolha, que não existe**. Enquanto os três não existirem,
+publicar faz a política afirmar rastreamento que não acontece. Há um
+comentário HTML logo acima do item 3 avisando. O caso inteiro está em
+[`../documentacao/15-ref-e-caso-na-medicao.md`](../documentacao/15-ref-e-caso-na-medicao.md).
+
 ## Antes de subir
 
 Faltam a foto nova do Dr. João para o herói e as tags de GA4 e Pixel
 dentro do GTM, que está instalado. Ver
 [`../documentacao/04-pendencias.md`](../documentacao/04-pendencias.md).
-
-A Política de Privacidade existe desde 13/09, em
-`politica-de-privacidade.html`. **Ela afirma, com data, que não há GA4 nem
-Pixel ligados**: quem instalar as tags reescreve o item 3 dela na mesma
-leva e cria o aviso de cookies, que ela promete. Ver
-[`../documentacao/13-politica-de-privacidade.md`](../documentacao/13-politica-de-privacidade.md).
 
 O e-mail `contato@jcp.adv.br`, que as duas páginas publicam, **ainda não
 recebe nada**. O plano de criar um encaminhador no cPanel morreu: a
