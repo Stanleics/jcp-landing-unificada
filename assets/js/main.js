@@ -16,11 +16,60 @@
     humilhacao:    'Oi! Passo humilhação no meu serviço e queria orientação.'
   };
 
-  var link = function (texto) {
-    return 'https://wa.me/' + FONE + '?text=' + encodeURIComponent(texto);
+  var byId = function (id) { return document.getElementById(id); };
+
+  /* Os assuntos que a pagina reconhece, tirados do proprio MSG para nao
+     virar uma segunda lista que alguem esquece de atualizar. Serve de
+     peneira: sem ela, qualquer coisa colada em ?caso= entraria no
+     relatorio, de erro de digitacao no anuncio a texto posto de
+     proposito. O hasOwnProperty e por causa de ?caso=constructor, que
+     passaria numa checagem ingenua. */
+  var eAssunto = function (x) {
+    return !!x && x !== 'generico' &&
+           Object.prototype.hasOwnProperty.call(MSG, x);
   };
 
-  var byId = function (id) { return document.getElementById(id); };
+  /* o GTM ja cria a fila no <head>; a linha protege a pagina sem o GTM */
+  window.dataLayer = window.dataLayer || [];
+
+  /* ------------------------------------------------------------------
+     0. Codigo de referencia — o [ref A1B2C3] que viaja no texto do
+        WhatsApp e amarra a conversa no aparelho do escritorio ao clique
+        que trouxe a pessoa. Quem gera o codigo e o script no fim do
+        index.html, que roda antes deste arquivo.
+
+        O carimbo mora aqui, dentro de link(), e nao num varredor de
+        hrefs no carregamento, porque quatro botoes tem o href reescrito
+        depois: o triador, o botao final, a barra fixa e o heroi quando
+        vem ?caso= na URL. Carimbar so o HTML perderia a marca
+        justamente no heroi de anuncio, que e o clique pago.
+     ------------------------------------------------------------------ */
+  var REF = (typeof window.jcpRef === 'string' && window.jcpRef) || '';
+
+  var comRef = function (texto) {
+    if (!REF || texto.indexOf('[ref ') !== -1) return texto;
+    return texto + '  [ref ' + REF + ']';
+  };
+
+  var link = function (texto) {
+    return 'https://wa.me/' + FONE + '?text=' + encodeURIComponent(comRef(texto));
+  };
+
+  /* Os botoes que ja nascem prontos no HTML nunca passam por link():
+     carimba cada um relendo o texto que esta no proprio href. */
+  if (REF) {
+    var fixos = document.querySelectorAll('a[href*="wa.me"]');
+    for (var g = 0; g < fixos.length; g++) {
+      var partes = (fixos[g].getAttribute('href') || '').split('?text=');
+      if (partes.length !== 2) continue;
+      var texto;
+      try {
+        texto = decodeURIComponent(partes[1].replace(/\+/g, ' '));
+      } catch (e) { continue; }
+      if (texto.indexOf('[ref ') !== -1) continue;
+      fixos[g].href = partes[0] + '?text=' + encodeURIComponent(comRef(texto));
+    }
+  }
 
   /* ------------------------------------------------------------------
      1. Variantes de heroi por parametro (?caso=...) — bloco 14
@@ -53,6 +102,9 @@
     caso = new URLSearchParams(window.location.search).get('caso');
   } catch (e) { /* navegador antigo: segue com o heroi padrao */ }
 
+  /* o assunto que o anuncio trouxe, quando e um assunto de verdade */
+  var casoDaUrl = eAssunto(caso) ? caso : '';
+
   if (caso && VARIANTES[caso]) {
     var v = VARIANTES[caso];
     var hT = byId('hero-titulo');
@@ -77,7 +129,7 @@
   if (form && msgEl && btnEl) {
     var caixas = form.querySelectorAll('input[type="checkbox"]');
 
-    var atualizar = function () {
+    var atualizar = function (avisar) {
       var rotulos = [];
       marcados = [];
       for (var i = 0; i < caixas.length; i++) {
@@ -102,11 +154,24 @@
 
       btnEl.href = href;
       if (finalEl) finalEl.href = href;
+
+      /* Conta a selecao, nao o clique: quem marca e nao fala aparece so
+         aqui. So em mudanca de verdade e so com algo marcado — a chamada
+         de partida roda com zero marcados e viraria ruido no relatorio.
+         O nome do caso segue a grafia de wa_marcados, com hifen, para o
+         GA4 nao receber duas escritas da mesma coisa. */
+      if (avisar && marcados.length) {
+        window.dataLayer.push({
+          event: 'selecao_triador',
+          caso: marcados.join(','),
+          qtd_marcados: marcados.length
+        });
+      }
     };
 
-    form.addEventListener('change', atualizar);
+    form.addEventListener('change', function () { atualizar(true); });
     form.addEventListener('submit', function (e) { e.preventDefault(); });
-    atualizar();
+    atualizar(false);
   }
 
   /* ------------------------------------------------------------------
@@ -149,10 +214,14 @@
         escrito a mao em cada botao: assim um botao novo ja nasce medido e
         nada quebra se um bloco mudar de lugar.
 
-        Nenhum dado de quem visita e enviado aqui: so de onde foi o clique.
+        Ate 13/09 nada de quem visita era enviado aqui: so de onde foi o
+        clique. Desde 14/09 nao e mais assim — vao junto o wa_ref, que e
+        um identificador guardado no aparelho por seis meses, e o
+        wa_gclid, que e o identificador do anuncio. Os dois existem para
+        ligar a conversa no WhatsApp ao clique que a trouxe, e foi essa
+        mudanca que obrigou a reescrever o item 3 da Politica de
+        Privacidade.
      ------------------------------------------------------------------ */
-  window.dataLayer = window.dataLayer || [];
-
   var maisProximo = function (el, seletor) {
     if (el.closest) return el.closest(seletor);
     while (el && el.nodeType === 1) {            /* navegador antigo */
@@ -180,7 +249,14 @@
 
     /* o cartao de area e mais especifico que a secao que o contem */
     var area = (cartao && cartao.id) || (explicito && explicito !== 'generico' ? explicito : '') || blocoId;
-    return { area: area, bloco: blocoId };
+
+    /* O assunto que a estrutura revela, separado de wa_area de proposito:
+       wa_area cai no nome do bloco quando o botao nao e de uma area, e
+       'rodape' nao e assunto nenhum. Aqui, ou e assunto ou fica vazio. */
+    var assunto = (cartao && eAssunto(cartao.id)) ? cartao.id
+                : (eAssunto(explicito) ? explicito : '');
+
+    return { area: area, bloco: blocoId, caso: assunto };
   };
 
   document.addEventListener('click', function (e) {
@@ -197,6 +273,28 @@
 
     /* no triador, o que importa e a combinacao que a pessoa marcou */
     if (marcados.length) evento.wa_marcados = marcados.join(',');
+
+    /* O assunto do clique, na mesma grafia com hifen do selecao_triador,
+       para o GA4 juntar os dois eventos pelo mesmo campo. Do mais
+       especifico para o menos: o cartao em que a pessoa tocou, depois a
+       combinacao que ela marcou, depois o assunto do anuncio que a
+       trouxe. Este ultimo e o que faltava: o botao do heroi sai com
+       data-wa="generico" dentro de uma <section> sem id, entao vinha como
+       wa_area 'heroi' mesmo quando ?caso=acidente tinha reescrito a
+       mensagem dele — o caso se perdia justamente no clique pago.
+
+       Sem assunto nenhum, o campo nao vai. Mandar 'rodape' em caso
+       encheria o relatorio de assunto que nao e assunto. */
+    var assunto = lugar.caso ||
+                  (marcados.length ? marcados.join(',') : '') ||
+                  casoDaUrl;
+    if (assunto) evento.caso = assunto;
+
+    /* o mesmo codigo que foi no texto da mensagem: e o que permite ligar,
+       depois, a conversa no WhatsApp ao anuncio que trouxe a pessoa.
+       Sem ele aqui, o [ref] chega ao escritorio sem par do outro lado. */
+    if (REF) evento.wa_ref = REF;
+    if (window.jcpGclid) evento.wa_gclid = window.jcpGclid;
 
     window.dataLayer.push(evento);
   }, true);

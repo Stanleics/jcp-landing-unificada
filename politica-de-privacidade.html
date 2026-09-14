@@ -108,7 +108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="chapeu">JCP Advocacia</p>
     <h1>Política de Privacidade</h1>
     <p class="lede">O que a gente faz com a informação de quem procura o escritório por este site e pelo WhatsApp. Escrito para ser lido, não para enrolar.</p>
-    <p class="legal-data">Última atualização: 13 de setembro de 2026.</p>
+    <p class="legal-data">Última atualização: 14 de setembro de 2026.</p>
   </div>
 </section>
 
@@ -119,7 +119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>O essencial, em cinco linhas</h2>
       <ul>
         <li>A gente só sabe de você o que você mesmo contar no WhatsApp.</li>
-        <li>Este site não tem formulário. As caixinhas que você marca não saem do seu aparelho até você tocar no botão e decidir mandar a mensagem.</li>
+        <li>Este site não tem formulário. O texto da sua mensagem não sai do aparelho até você tocar no botão e decidir mandar. A medição conta quais caixinhas você marcou, sem o seu nome — está no item 3.</li>
         <li>O que você conta é protegido por sigilo profissional de advogado. Vale mesmo que você não vire cliente.</li>
         <li>A gente não vende, não aluga e não troca a sua informação com ninguém.</li>
         <li>Você pode pedir para ver, corrigir ou apagar o que temos. É só falar no WhatsApp.</li>
@@ -129,7 +129,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="legal-indice">
       <li><a href="#quem">1. Quem é responsável</a></li>
       <li><a href="#o-que">2. Que informação chega até nós</a></li>
-      <li><a href="#medicao">3. Medição e cookies</a></li>
+      <li><a href="#medicao">3. Medição e origem do contato</a></li>
       <li><a href="#para-que">4. Para que usamos</a></li>
       <li><a href="#base-legal">5. Com que direito</a></li>
       <li><a href="#sigilo">6. Sigilo profissional</a></li>
@@ -170,16 +170,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <h3>2.3. O que este site não faz</h3>
       <ul>
-        <li><strong>Não tem formulário que envia dados.</strong> Na parte de marcar o que aconteceu com você, as caixinhas só montam o texto da mensagem, dentro do seu próprio aparelho. Nada é enviado enquanto você não tocar no botão e escolher mandar no WhatsApp.</li>
+        <li><strong>Não tem formulário que envia dados.</strong> Na parte de marcar o que aconteceu com você, as caixinhas montam o texto da mensagem dentro do seu próprio aparelho, e esse texto só sai quando você tocar no botão e escolher mandar no WhatsApp. A medição do site, essa sim, registra quais caixinhas você marcou no momento em que você marca — sem o texto, sem o seu nome. Está no item 3.</li>
         <li><strong>Não pede</strong> CPF, e-mail, senha, dado bancário nem dado de cartão em nenhum lugar da página.</li>
         <li><strong>Não tem área de login</strong> e não cria cadastro de visitante.</li>
       </ul>
 
-      <h2 id="medicao">3. Medição e cookies</h2>
-      <p>O site usa o Gerenciador de Tags do Google para contar o que funciona na página. O que é registrado é o toque no botão de WhatsApp e de qual parte da página ele veio — por exemplo, "acidente" ou "hora extra". Serve para saber qual assunto traz mais gente ao escritório.</p>
-      <p><strong>Nada do que identifica você vai junto, e o texto da sua mensagem nunca sai do seu aparelho para essa medição.</strong> O que o escritório vê é quantidade, não pessoa.</p>
-      <p>Em <strong>13 de setembro de 2026</strong>, essa é toda a medição que existe: o gerenciador está instalado, e ainda não há ferramenta de análise de audiência nem pixel de anúncio ligados dentro dele. Quando o Google Analytics e o Pixel da Meta entrarem, esta política é atualizada <em>antes</em>, dizendo o que cada um coleta, e a página passa a ter aviso de cookies com escolha.</p>
-      <p>Hoje o site <strong>não usa cookie para acompanhar você por outros sites</strong>. Duas coisas aqui são de terceiros e recebem o seu IP só para conseguir entregar a página: as letras, que vêm do Google Fonts, e a hospedagem, que é da Cloudflare.</p>
+      <!-- ATENCAO — ESTE ITEM DESCREVE O ESTADO FINAL, NAO O DE HOJE.
+           Ele afirma tres coisas que ainda precisam existir na pagina antes
+           de este arquivo ir ao ar, senao a politica passa a prometer ao
+           contrario do que prometia antes:
+
+             1. GA4 ligado dentro do GTM-PVKGSRZD;
+             2. Tags de anuncio do Google e da Meta ligadas dentro do GTM,
+                com gatilho preso ao consentimento;
+             3. Aviso de cookies com escolha na pagina, que hoje nao existe.
+
+           Enquanto os tres nao existirem, publicar esta pagina faz a
+           politica afirmar rastreamento que nao acontece. Ver
+           ../documentacao/13-politica-de-privacidade.md. -->
+      <h2 id="medicao">3. Medição e origem do contato</h2>
+      <p>O site usa o Gerenciador de Tags do Google e, dentro dele, o Google Analytics, para contar quanta gente abre a página e quanta gente começa conversa no WhatsApp. O que é registrado é o toque no botão e de qual parte da página ele veio — por exemplo, "acidente" ou "hora extra". Serve para saber qual assunto traz mais gente ao escritório.</p>
+      <p>Também é registrado o que você marca na parte de marcar o que aconteceu com você, e a combinação que você marcou, <strong>no momento em que você marca, mesmo que não toque em nenhum botão depois</strong>. É o que mostra ao escritório quais problemas costumam aparecer juntos. Vai a combinação em número, nunca o seu nome.</p>
+      <p><strong>O código de referência.</strong> Na sua primeira visita, ainda antes de você tocar em qualquer coisa, o site cria um código curto — como <em>[ref A1B2C3]</em> — e guarda no seu próprio aparelho. Quando você toca no botão do WhatsApp, esse código entra na mensagem que abre no aplicativo. Ele serve para o escritório saber por qual anúncio ou por qual parte do site você chegou.</p>
+      <p>O código fica à vista, escrito na mensagem, e você pode apagar antes de enviar. Só uma ressalva honesta: no instante do toque ele já foi para a medição do site. Apagar impede que ele chegue ao escritório junto com a sua mensagem — não desfaz o registro do toque.</p>
+      <p>O código não diz o seu nome e não acompanha você por outros sites. Ele fica <strong>seis meses</strong> no seu aparelho e depois some sozinho, junto com os identificadores de anúncio. Limpar os dados do navegador apaga na hora.</p>
+      <p><strong>Identificadores de anúncio.</strong> Se você chegou por um anúncio, o endereço traz um identificador do Google ou da Meta. Ele é guardado no seu aparelho ao lado do código de referência, pelo mesmo prazo, e diz qual anúncio trouxe você, não quem você é.</p>
+      <p><strong>Cookies e a sua escolha.</strong> A medição própria descrita acima funciona sem cookie de acompanhamento e vale para todo mundo. Já as <strong>tags de anúncio do Google e da Meta só carregam se você aceitar</strong>, no aviso que aparece quando a página abre. Enquanto você não aceitar, elas não carregam e nada vai para essas plataformas. Você pode mudar de ideia depois.</p>
+      <p><strong>Nada do texto da sua conversa, do seu nome ou do seu telefone vai para a medição.</strong> O que o escritório vê ali é quantidade e origem, não pessoa.</p>
+      <p>Ao enviar a mensagem, o WhatsApp entrega o seu número ao escritório. Daí em diante o atendimento é pessoal e sigiloso, tratado como dizem os itens <a href="#sigilo">6</a> e <a href="#tempo">8</a> desta política.</p>
+      <p><strong>Com que direito, e por quanto tempo.</strong> A medição própria e o código de referência ficam no legítimo interesse (art. 7º, IX), no mínimo necessário. As tags de anúncio ficam no seu consentimento (art. 7º, I), pedido antes de carregarem. Os números da medição ficam até 14 meses; o código de referência, seis. Para apagar esses registros, é só pedir em <a href="mailto:contato@jcp.adv.br">contato@jcp.adv.br</a>.</p>
+      <p>Outras duas coisas aqui são de terceiros e recebem o seu IP só para conseguir entregar a página: as letras, que vêm do Google Fonts, e a hospedagem, que é da Cloudflare.</p>
 
       <h2 id="para-que">4. Para que a gente usa</h2>
       <ul>
@@ -196,10 +216,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><strong>Para atender você e tocar o caso</strong> — art. 7º, V: são os passos anteriores ao contrato e, depois, o próprio contrato com você.</li>
         <li><strong>Para cumprir a lei</strong> — art. 7º, II.</li>
         <li><strong>Para defender o seu direito em processo</strong> — art. 7º, VI.</li>
-        <li><strong>Para segurança do site e para medir a própria página</strong> — art. 7º, IX, legítimo interesse, no mínimo necessário.</li>
+        <li><strong>Para segurança do site, para medir a própria página e para o código de referência</strong> — art. 7º, IX, legítimo interesse, no mínimo necessário.</li>
       </ul>
       <p>Para a informação sensível, como a de saúde, a base é o art. 11, II, "d": exercício regular de direitos em processo judicial, administrativo ou arbitral. Quando não for esse o caso, pedimos o seu consentimento, e você pode retirá-lo depois.</p>
-      <p>Se um dia entrar pixel de anúncio, a base dele será o seu consentimento, pedido antes de o pixel carregar.</p>
+      <p>Para as tags de anúncio do Google e da Meta, a base é o <strong>seu consentimento</strong> — art. 7º, I —, pedido antes de elas carregarem. Você pode retirar depois, e elas param.</p>
 
       <h2 id="sigilo">6. Sigilo profissional</h2>
       <p>Além da LGPD, o que você conta ao escritório é protegido pelo <strong>sigilo profissional do advogado</strong>, dever previsto no Estatuto da Advocacia (Lei 8.906/1994, art. 34, VII) e no Código de Ética e Disciplina da OAB.</p>
@@ -208,7 +228,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2 id="compartilha">7. Com quem a informação é compartilhada</h2>
       <ul>
         <li><strong>WhatsApp, da Meta.</strong> A conversa acontece dentro do aplicativo deles. O conteúdo tem criptografia de ponta a ponta, mas a Meta sabe que vocês conversaram, e o tratamento que ela faz segue a política dela, não a nossa.</li>
-        <li><strong>Google e Cloudflare.</strong> Recebem dado técnico de acesso, como explicado no item 3, para entregar a página e medir os toques nos botões.</li>
+        <li><strong>Google, Meta e Cloudflare.</strong> Recebem dado técnico de acesso, como explicado no <a href="#medicao">item 3</a>, para entregar a página e medir os toques nos botões. As tags de anúncio do Google e da Meta só recebem alguma coisa se você tiver aceitado o aviso de cookies.</li>
         <li><strong>Quem for necessário para o seu caso</strong>, e só se você contratar: Justiça do Trabalho, INSS, perito, parte contrária. Só o que o caso exigir.</li>
         <li><strong>Quando a lei ou uma ordem judicial obrigar.</strong> Mesmo aí, o sigilo profissional é levantado como defesa quando cabe.</li>
       </ul>
@@ -219,6 +239,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><strong>Conversa que não virou caso:</strong> fica enquanto for útil para o atendimento e depois é apagada.</li>
         <li><strong>Caso contratado:</strong> enquanto o caso durar e, depois, pelo prazo que a lei e a OAB exigem para guarda de documento e para a defesa do escritório em eventual cobrança.</li>
         <li><strong>Registro de acesso ao site:</strong> no mínimo 6 meses, como manda o Marco Civil da Internet (art. 15).</li>
+        <li><strong>Números da medição:</strong> até 14 meses.</li>
+        <li><strong>Código de referência e identificadores de anúncio:</strong> 6 meses no seu aparelho, contados da primeira visita, e depois apagados sozinhos.</li>
       </ul>
 
       <h2 id="seguranca">9. Segurança</h2>

@@ -734,6 +734,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <svg aria-hidden="true"><use href="#i-wa"/></svg><span class="wa-bar__txt">Falar com advogado</span>
 </a>
 
-<script src="assets/js/main.js?v=16" defer></script>
+<!-- ===================== ORIGEM E CODIGO DE REFERENCIA =====================
+     Guarda de onde a pessoa veio (gclid e utm) e gera um codigo curto que
+     viaja no texto do WhatsApp, como [ref A1B2C3]. E esse codigo que amarra
+     a conversa no aparelho do escritorio ao clique que trouxe a pessoa.
+
+     Este trecho so captura e expoe. Quem carimba o codigo nos botoes e o
+     main.js, dentro de link(): quatro botoes tem o href reescrito em tempo
+     de execucao e carimbar aqui perderia a marca justamente neles.
+
+     Roda antes do main.js: script inline comum vem antes de qualquer defer.
+     ========================================================================= -->
+<script>
+(function () {
+  'use strict';
+
+  /* localStorage lanca em aba anonima e com armazenamento bloqueado */
+  var guardar = function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} };
+  var ler = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  var apagar = function (k) { try { localStorage.removeItem(k); } catch (e) {} };
+
+  var CHAVES = ['gclid', 'gbraid', 'wbraid', 'utm_source', 'utm_medium',
+                'utm_campaign', 'utm_content', 'utm_term'];
+  var SEIS_MESES = 182 * 24 * 60 * 60 * 1000;
+  var i;
+
+  /* Um relogio so para tudo que fica guardado, porque a politica promete
+     um prazo so: seis meses. Contados da primeira visita, nao renovados a
+     cada uma — renovar faria o prazo nunca vencer para quem volta sempre.
+     Vencido, limpa tudo e a proxima visita comeca do zero. */
+  var desde = parseInt(ler('jcp_desde'), 10);
+  if (desde && (Date.now() - desde) > SEIS_MESES) {
+    apagar('jcp_ref');
+    apagar('jcp_desde');
+    for (i = 0; i < CHAVES.length; i++) apagar('jcp_' + CHAVES[i]);
+    desde = null;
+  }
+
+  /* navegador antigo sem URLSearchParams: segue sem a origem, mas com o ref */
+  try {
+    var p = new URLSearchParams(location.search);
+    for (i = 0; i < CHAVES.length; i++) {
+      var valor = p.get(CHAVES[i]);
+      if (valor) guardar('jcp_' + CHAVES[i], valor);
+    }
+  } catch (e) {}
+
+  var ref = ler('jcp_ref');
+  if (!ref) {
+    ref = (Date.now().toString(36) + Math.random().toString(36).slice(2, 5)).toUpperCase();
+    guardar('jcp_ref', ref);
+  }
+  if (!desde) guardar('jcp_desde', String(Date.now()));
+
+  window.jcpRef = ref;
+  window.jcpGclid = ler('jcp_gclid') || '';
+})();
+</script>
+
+<script src="assets/js/main.js?v=18" defer></script>
 </body>
 </html>
