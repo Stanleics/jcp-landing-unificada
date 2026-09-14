@@ -70,22 +70,29 @@ dela mora num `<style>` dentro do próprio arquivo. São ~1,2 KB que não
 valem subir o `?v=` do `style.css` e obrigar todo mundo que já visitou a
 baixar o CSS inteiro de novo.
 
-## Há trabalho pronto que não está no ar
+## O que está no ar, e a dívida que veio junto
 
-O ramo **`medicao-ref-e-caso`** traz o código de referência no texto do
-WhatsApp, os campos `caso`, `wa_ref`, `wa_gclid` e `qtd_marcados` no
-evento de clique — os oito campos vão sempre, mesmo vazios —, o evento
-`selecao_triador` e a Política de Privacidade reescrita em seis lugares.
-Ali o `main.js` está em `v=19`, **nas duas páginas**: o `index.html` e a
-`politica-de-privacidade.html` carregam o mesmo arquivo e precisam da
-mesma chave de cache.
+Desde **14/09/2026** está publicado o código de referência no texto do
+WhatsApp, o evento `clique_whatsapp` com os oito campos (`caso`,
+`wa_ref`, `wa_gclid` e `qtd_marcados` entre eles, sempre presentes,
+mesmo vazios), o evento `selecao_triador` e a Política de Privacidade
+reescrita. O `main.js` está em `v=19`, **nas duas páginas**.
 
-**Não publique esse ramo ainda.** O item 3 da política descreve o estado
-final e afirma três coisas que ainda não existem na página: GA4 ligado no
-GTM, tags de anúncio com gatilho preso ao consentimento, e **o aviso de
-cookies com escolha, que não existe**. Enquanto os três não existirem,
-publicar faz a política afirmar rastreamento que não acontece. Há um
-comentário HTML logo acima do item 3 avisando. O caso inteiro está em
+**Foi publicado por decisão expressa do cliente, com o aviso de que duas
+afirmações do item 3 da política ainda não são verdade na página.** Não
+é engano de quem publicou; é dívida com prazo, e está registrada num
+comentário HTML logo acima do item 3:
+
+1. O item diz que o **Google Analytics** roda dentro do GTM. Ainda não
+   roda — o `GTM-PVKGSRZD` está instalado e sem tag.
+2. O item diz que as tags de anúncio **só carregam se a pessoa aceitar,
+   no aviso que aparece quando a página abre**. Esse aviso **não
+   existe**, e as tags também não. Esta é a mais grave das duas, porque
+   descreve uma escolha da pessoa que o site não oferece.
+
+O aviso de cookies com escolha é o único dos pendentes que é trabalho de
+código. Enquanto ele não existir, a página promete um controle que não
+entrega. Ver
 [`../documentacao/15-ref-e-caso-na-medicao.md`](../documentacao/15-ref-e-caso-na-medicao.md).
 
 ## Antes de subir
