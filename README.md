@@ -73,9 +73,12 @@ baixar o CSS inteiro de novo.
 ## Há trabalho pronto que não está no ar
 
 O ramo **`medicao-ref-e-caso`** traz o código de referência no texto do
-WhatsApp, os campos `caso`, `wa_ref` e `wa_gclid` no evento de clique, o
-evento `selecao_triador` e a Política de Privacidade reescrita em seis
-lugares. Ali o `main.js` está em `v=18`.
+WhatsApp, os campos `caso`, `wa_ref`, `wa_gclid` e `qtd_marcados` no
+evento de clique — os oito campos vão sempre, mesmo vazios —, o evento
+`selecao_triador` e a Política de Privacidade reescrita em seis lugares.
+Ali o `main.js` está em `v=19`, **nas duas páginas**: o `index.html` e a
+`politica-de-privacidade.html` carregam o mesmo arquivo e precisam da
+mesma chave de cache.
 
 **Não publique esse ramo ainda.** O item 3 da política descreve o estado
 final e afirma três coisas que ainda não existem na página: GA4 ligado no

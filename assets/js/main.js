@@ -264,15 +264,6 @@
     if (!alvo) return;
 
     var lugar = ondeEstou(alvo);
-    var evento = {
-      event: 'clique_whatsapp',
-      wa_area: lugar.area,
-      wa_bloco: lugar.bloco,
-      wa_rotulo: (alvo.textContent || '').replace(/\s+/g, ' ').trim()
-    };
-
-    /* no triador, o que importa e a combinacao que a pessoa marcou */
-    if (marcados.length) evento.wa_marcados = marcados.join(',');
 
     /* O assunto do clique, na mesma grafia com hifen do selecao_triador,
        para o GA4 juntar os dois eventos pelo mesmo campo. Do mais
@@ -283,20 +274,34 @@
        wa_area 'heroi' mesmo quando ?caso=acidente tinha reescrito a
        mensagem dele — o caso se perdia justamente no clique pago.
 
-       Sem assunto nenhum, o campo nao vai. Mandar 'rodape' em caso
+       Fica vazio quando nao ha assunto nenhum: 'rodape' e 'barra-fixa'
+       sao nome de bloco, nao assunto, e mandar um no lugar do outro
        encheria o relatorio de assunto que nao e assunto. */
     var assunto = lugar.caso ||
                   (marcados.length ? marcados.join(',') : '') ||
                   casoDaUrl;
-    if (assunto) evento.caso = assunto;
 
-    /* o mesmo codigo que foi no texto da mensagem: e o que permite ligar,
-       depois, a conversa no WhatsApp ao anuncio que trouxe a pessoa.
-       Sem ele aqui, o [ref] chega ao escritorio sem par do outro lado. */
-    if (REF) evento.wa_ref = REF;
-    if (window.jcpGclid) evento.wa_gclid = window.jcpGclid;
+    /* Os campos vao todos, sempre, mesmo vazios. O dataLayer e um modelo
+       que se acumula: campo que falta num push nao chega ao GTM como
+       vazio — chega com o valor que o push anterior deixou. Antes disso,
+       quem tocasse no cartao do INSS e depois na barra fixa mandava
+       'inss' nas duas vezes, e a segunda era mentira.
 
-    window.dataLayer.push(evento);
+       wa_ref sai da mesma variavel que o comRef() usa para carimbar o
+       href, e nao de uma segunda leitura: e o par dos dois lados do mesmo
+       clique. Sem ele aqui, o [ref] chega ao escritorio sem par; com um
+       valor diferente do que foi na mensagem, o par mente, que e pior. */
+    window.dataLayer.push({
+      event: 'clique_whatsapp',
+      wa_area: lugar.area,
+      wa_bloco: lugar.bloco,
+      wa_rotulo: (alvo.textContent || '').replace(/\s+/g, ' ').trim(),
+      wa_ref: REF,
+      wa_gclid: window.jcpGclid || '',
+      caso: assunto,
+      wa_marcados: marcados.join(','),
+      qtd_marcados: marcados.length
+    });
   }, true);
 
   /* ------------------------------------------------------------------
