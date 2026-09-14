@@ -1,0 +1,15 @@
+{
+  // Publicacao da LP no Cloudflare Pages (agora sobre Workers).
+  // So a pasta dist/ vai para o ar: ela e montada pelo publicar.sh e contem
+  // apenas index.html + assets. fotos/, README, dns/ e o proprio script
+  // ficam de fora de proposito.
+  "name": "jcp-lp-trabalhista",
+  // Desligado de proposito: com preview ligado, cada versao antiga ganha uma
+  // URL publica propria — inclusive a primeira, que subiu a pasta inteira.
+  "preview_urls": false,
+  "compatibility_date": "2026-09-10",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

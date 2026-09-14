@@ -1,0 +1,70 @@
+; Zona jcp.adv.br — retrato do DNS atual (ns1/ns2.aweb.marketing -> supercp.com)
+; Gerado em 2026-09-10 a partir das respostas publicas, para importar na Cloudflare.
+; Confira contra o que o scan da Cloudflare trouxer: o que faltar, cria a mao.
+; ATENCAO: tudo aqui e DNS-only (nuvem CINZA). So o registro da LP fica na Cloudflare.
+$TTL 3600
+
+; ---- site atual (WordPress no cPanel) ----
+; ATENCAO: em 13/09/2026 o cliente decidiu que a LP vai para https://jcp.adv.br/,
+; o endereco principal, sem www. Estes dois registros SAO os que mudam.
+; Importar assim mesmo (nuvem cinza, apontando para o cPanel) e so trocar
+; depois que a zona estiver ativa na Cloudflare e conferida. Ate la o site
+; atual continua servindo igual.
+; A convencao de hoje e mantida: o www ja redireciona 301 para o apex, e vai
+; continuar redirecionando. Nada que esteja impresso ou divulgado muda.
+jcp.adv.br.              IN A     68.66.226.89
+www.                     IN CNAME jcp.adv.br.
+
+; ---- e-mail: NAO PODE FALTAR NENHUM ----
+jcp.adv.br.              IN MX    0 mail.jcp.adv.br.
+mail.                    IN A     68.66.226.89
+webmail.                 IN A     68.66.226.89
+cpanel.                  IN A     68.66.226.89
+whm.                     IN A     68.66.226.89
+ftp.                     IN A     68.66.226.89
+autodiscover.            IN A     68.66.226.89
+autoconfig.              IN A     68.66.226.89
+cpcalendars.             IN A     68.66.226.89
+cpcontacts.              IN A     68.66.226.89
+webdisk.                 IN A     68.66.226.89
+_autodiscover._tcp.      IN SRV   0 0 443 cpanelemaildiscovery.cpanel.net.
+
+; ---- contato@jcp.adv.br: PENDENTE, e nao e registro de DNS ----
+; A LP e a Politica de Privacidade publicam contato@jcp.adv.br desde
+; 13/09/2026, mas a caixa ainda NAO existe. Nao procure registro faltando
+; aqui: o MX acima ja entrega em mail.jcp.adv.br (68.66.226.89), entao o
+; DNS esta completo. O que falta e criar a conta, ou um encaminhador, no
+; cPanel desse mesmo servidor, apontando para joaofilipemc@gmail.com.
+;
+; Enquanto nao existir, quem escrever para exercer direito da LGPD toma
+; devolucao. Nao virar o dominio para a LP antes disso.
+;
+; E preciso sobreviver a decisao de tirar o site atual do ar: se a
+; hospedagem for CANCELADA, o e-mail do escritorio inteiro cai junto, este
+; alias tambem. Ver 04-pendencias.md, item 1b.
+
+; ---- SPF e DKIM (texto exato, nao reescrever) ----
+jcp.adv.br.              IN TXT   "v=spf1 ip4:68.66.226.89 include:spf.supercp.com +a +mx +ip4:68.66.224.4 ~all"
+default._domainkey.      IN TXT   "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr1B+22t/T7wW1U64LoibVL7Tw7d9A8vcWERBfD0GOhTHpXV+D2HO7wEdy1c4xAckY4qQfUdypke5iMUcYfrLarGUkOmWbwSu6pJWuT37sPfk9lf3JQxRy281yeEyGExjZCjmSpNpaKRHcwk7JkpSYC37UN3i6wgaSewmLhSJb2mLl4iVtj6quKNJhc99aI5tF" "ddDkkRxHuwWbaIbVqRLGCAexXYfvcf1wrchNUHOWfoL5giMBLQsQbH3Szmz8qTVvduk8kFVOXgTjO1MukpqU2qIgGiccW+eSpemV7nqdw3l5JhgHD95JYoTIjfsGk8vhhnqwB7qSe1tUz3f+Y6UCwIDAQAB;"
+
+; ---- LP nova: vai para o apex, decisao de 13/09/2026 ----
+; O subdominio local.jcp.adv.br foi abandonado. Nao criar.
+;
+; Depois que a zona estiver ativa e conferida, ligar jcp.adv.br (o apex)
+; como dominio personalizado do Worker jcp-lp-trabalhista. A Cloudflare
+; cria e gerencia o registro sozinha, em nuvem LARANJA. Apex apontando
+; para um CNAME funciona aqui por causa do CNAME flattening da Cloudflare:
+; @                       IN CNAME jcp-lp-trabalhista.workers.dev.  (proxy on)
+;
+; O www tambem precisa ficar proxiado, com uma regra de redirecionamento
+; 301 para https://jcp.adv.br/. Sem isso ele resolve para a Cloudflare mas
+; nao casa com nenhum hostname do Worker, e devolve erro. Hoje quem faz
+; esse redirecionamento e o cPanel; quem passa a fazer e a Cloudflare.
+;
+; Os dois registros acima sao os UNICOS que saem do cPanel. Todo o resto
+; da zona, e-mail inclusive, continua apontando para 68.66.226.89.
+;
+; SPF: com o apex saindo para a Cloudflare, o "+a" do registro passa a
+; autorizar IPs de proxy compartilhado em vez do servidor de e-mail. O
+; e-mail nao quebra, porque o ip4 e o +mx ja autorizam o servidor real,
+; mas o +a vira uma permissao larga demais e deve sair na mesma mexida.
