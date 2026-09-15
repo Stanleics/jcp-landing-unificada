@@ -85,7 +85,10 @@ do `?v=` existia e o navegador perguntava de novo assim mesmo.
 `assets/` sem subir o `?v=` deixa quem já visitou com a versão velha por
 um ano, e recarga normal não resolve. Antes, o mesmo erro se consertava
 na visita seguinte. Foi exatamente esse descuido que deixou a política em
-`main.js?v=16` enquanto o `index.html` estava em `v=18`.
+`main.js?v=16` enquanto o `index.html` estava em `v=18`. A medição que
+motivou o arquivo, e as três armadilhas de conferir cache em Worker com
+assets, estão em
+[`../documentacao/16-oito-campos-publicacao-e-cache.md`](../documentacao/16-oito-campos-publicacao-e-cache.md).
 
 A `politica-de-privacidade.html` foge da regra por um motivo: o estilo só
 dela mora num `<style>` dentro do próprio arquivo. São ~1,2 KB que não
@@ -114,7 +117,9 @@ comentário HTML logo acima do item 3:
 
 O aviso de cookies com escolha é o único dos pendentes que é trabalho de
 código. Enquanto ele não existir, a página promete um controle que não
-entrega. Ver
+entrega. A sessão inteira, com a lista do que ficou devendo, está em
+[`../documentacao/16-oito-campos-publicacao-e-cache.md`](../documentacao/16-oito-campos-publicacao-e-cache.md);
+a linha do consentimento, em
 [`../documentacao/15-ref-e-caso-na-medicao.md`](../documentacao/15-ref-e-caso-na-medicao.md).
 
 ## Antes de subir
