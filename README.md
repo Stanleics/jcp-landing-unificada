@@ -62,7 +62,9 @@ disparando eventos reais no contêiner do cliente.
 ## Cache: subir o `?v=` deixou de ser boa prática
 
 Ao alterar CSS, JavaScript ou imagem, suba o `?v=` da referência
-correspondente. **No ar**, o CSS está em `v=16`, o JavaScript em `v=19`
+correspondente. **No ar**, o CSS está em `v=16`, o JavaScript em `v=19`;
+no repositório, à espera de publicação, o CSS está em `v=17` e o
+JavaScript em `v=20` (âncora dos cartões e campo `wa_entrada`, abaixo)
 (nas duas páginas), a foto da equipe em `v=15`, a foto da sala em `v=14`;
 os arquivos que não mudaram seguem em `v=12`, de propósito, para não
 forçar download repetido em quem usa dado pré-pago.
@@ -103,21 +105,76 @@ WhatsApp, o evento `clique_whatsapp` com os oito campos (`caso`,
 mesmo vazios), o evento `selecao_triador` e a Política de Privacidade
 reescrita. O `main.js` está em `v=19`, **nas duas páginas**.
 
-**Foi publicado por decisão expressa do cliente, com o aviso de que duas
-afirmações do item 3 da política ainda não são verdade na página.** Não
-é engano de quem publicou; é dívida com prazo, e está registrada num
-comentário HTML logo acima do item 3:
+**No repositório, ainda não publicado, esse evento tem um nono campo:**
+`wa_entrada`, a âncora pela qual a pessoa chegou. Os sitelinks do Google
+apontam todos para a mesma página e se distinguem só pelo `#`, então sem
+ele o relatório soma num destino único o que foram vários anúncios. É
+lido uma vez na carga, não no clique — os sete links internos que
+apontam para os cartões trocam o hash, e ler no clique devolveria o
+último pulo dentro da página, não a porta de entrada. Entra só o que é
+alvo de rolagem de verdade (`section[id]` ou cartão de área), pela mesma
+razão que o `?caso=` tem peneira. Vai também no `selecao_triador`, onde
+não corre risco de valor velho porque não muda enquanto a página está
+aberta.
 
-1. O item diz que o **Google Analytics** roda dentro do GTM. Ainda não
-   roda — o `GTM-PVKGSRZD` está instalado e sem tag.
-2. O item diz que as tags de anúncio **só carregam se a pessoa aceitar,
-   no aviso que aparece quando a página abre**. Esse aviso **não
-   existe**, e as tags também não. Esta é a mais grave das duas, porque
-   descreve uma escolha da pessoa que o site não oferece.
+**Ele só chega ao GA4 depois de duas configurações no GTM** que não são
+código: uma Variável de camada de dados `wa_entrada` e o parâmetro
+correspondente na tag `GA4 - clique_whatsapp` (e na do triador). Sem
+isso o campo fica no `dataLayer` e o GTM o ignora. Para aparecer em
+relatório, falta ainda registrá-lo como dimensão personalizada com
+escopo de evento no GA4.
 
-O aviso de cookies com escolha é o único dos pendentes que é trabalho de
-código. Enquanto ele não existir, a página promete um controle que não
-entrega. A sessão inteira, com a lista do que ficou devendo, está em
+## A dívida do item 3 foi fechada pelo texto, não pelo código
+
+Entre **14 e 17/09/2026** a política afirmava duas coisas que a página
+não fazia. Publicado assim por decisão expressa do cliente: não era
+engano de quem publicou, era dívida com prazo. As duas fecharam em
+**17/09/2026**, cada uma por um caminho diferente:
+
+1. *"dentro dele, o Google Analytics"* — **virou verdade sozinha.** O
+   `GTM-PVKGSRZD` tem quatro tags publicadas (Tag do Google,
+   `clique_whatsapp`, `selecao_triador` e Vinculador de conversões do
+   Ads). Verificado na rede em 17/09: a propriedade `G-45ZDKWXB4B`
+   recebe os eventos.
+2. *"só carregam se você aceitar, no aviso que aparece quando a página
+   abre"* — **a promessa foi retirada do texto**, por decisão do
+   cliente, em vez de construída em código. Era a mais grave das duas,
+   porque descrevia uma escolha que o site não oferecia.
+
+O item 3 agora diz o que a página faz: a medição vale para todo mundo,
+começa quando a página abre, roda no **legítimo interesse** (art. 7º,
+IX) e não no consentimento, e a pessoa pode se opor e pedir exclusão
+pelos canais do item 10 — que ganhou o direito de oposição, que faltava
+na lista. Também caíram as menções à **Meta**: não existe Pixel no
+contêiner, e o script de origem não guarda `fbclid`.
+
+Três coisas que o texto novo assume em voz alta, porque esconder
+qualquer uma delas recriaria a dívida:
+
+- O GA4 e o Ads **gravam cookie** no aparelho. A frase antiga dizia que
+  a medição funcionava "sem cookie de acompanhamento", e isso deixou de
+  ser verdade no instante em que o GA4 entrou.
+- Com a conta do GA4 ligada à do Ads, sai um ping para
+  `ads/ga-audiences`, que **alimenta público de anúncio**. É a parte
+  mais fraca do enquadramento em legítimo interesse. Desligar o vínculo
+  de público no GA4 é configuração, não código, e deixaria a posição
+  bem mais defensável.
+- Não há aviso de cookies, e o texto diz isso com essas palavras.
+
+**Regra para quem mexer depois, e ela está repetida no comentário HTML
+acima do item 3:** texto e código mudam no mesmo commit. Enquanto não
+houver aviso com escolha, não escreva na política que existe escolha. Se
+o Consent Mode entrar um dia, o item 3 volta a falar de consentimento no
+mesmo commit em que o aviso nascer.
+
+**Cuidado que faltava e ainda falta:** o GTM carrega em `localhost`
+também. Em 17/09, medir a página local mandou ~18 `clique_whatsapp`
+reais para o `G-45ZDKWXB4B`, e bateu no endpoint de conversão do Ads.
+Todos carregam `dl=http://localhost:8899/...` e dão para isolar pela
+dimensão *Nome do host*. Falta um **acionador de exceção no GTM**
+bloqueando as tags quando o host for `localhost` ou `127.0.0.1`.
+
+A sessão que criou a dívida está em
 [`../documentacao/16-oito-campos-publicacao-e-cache.md`](../documentacao/16-oito-campos-publicacao-e-cache.md);
 a linha do consentimento, em
 [`../documentacao/15-ref-e-caso-na-medicao.md`](../documentacao/15-ref-e-caso-na-medicao.md).

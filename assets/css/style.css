@@ -95,7 +95,13 @@ h4{font-size:1.08rem;line-height:1.35}
 .wrap{width:min(var(--wrap),100% - 2.5rem);margin-inline:auto}
 .wrap--narrow{width:min(880px,100% - 2.5rem);margin-inline:auto}
 section{padding-block:clamp(3.5rem,7vw,6rem);position:relative}
-section[id]{scroll-margin-top:80px}
+/* Alvo de ancora tem de parar abaixo do cabecalho, que e sticky e tem
+   62px: sem isso o topo do alvo fica coberto. Os sete cartoes de area
+   sao <article>, nao <section>, e entravam nessa — o selo "Comece por
+   aqui" sumia inteiro e o <h3> chegava cortado. Vale para os links
+   internos que apontam para os cartoes e para os sitelinks do Google,
+   que usam o mesmo #. */
+section[id],article.area[id]{scroll-margin-top:80px}
 
 .bg-paper{background:var(--paper)}
 .bg-paper-alt{background:var(--paper-alt)}

@@ -27,7 +27,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <!-- o ?v= sobe a cada alteracao: sem ele o celular fica com o CSS velho em cache -->
-<link rel="stylesheet" href="assets/css/style.css?v=16">
+<link rel="stylesheet" href="assets/css/style.css?v=17">
 
 <!-- Estilo so desta pagina, inline de proposito: sao ~1,2 KB que nao valem
      uma requisicao a mais nem furar o cache do style.css da home inteira
@@ -108,7 +108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="chapeu">JCP Advocacia</p>
     <h1>Política de Privacidade</h1>
     <p class="lede">O que a gente faz com a informação de quem procura o escritório por este site e pelo WhatsApp. Escrito para ser lido, não para enrolar.</p>
-    <p class="legal-data">Última atualização: 14 de setembro de 2026.</p>
+    <p class="legal-data">Última atualização: 17 de setembro de 2026.</p>
   </div>
 </section>
 
@@ -175,31 +175,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><strong>Não tem área de login</strong> e não cria cadastro de visitante.</li>
       </ul>
 
-      <!-- ATENCAO — ESTE ITEM ESTA NO AR E AINDA DESCREVE O ESTADO FINAL.
-           Publicado em 14/09/2026, por decisao expressa do cliente, com o
-           aviso de que duas afirmacoes abaixo ainda nao sao verdade na
-           pagina. Nao e engano de quem publicou: e divida com prazo.
+      <!-- ESTE ITEM DESCREVE O QUE A PAGINA FAZ HOJE. Reescrito em 17/09/2026.
 
-           O que ja e verdade: o codigo de referencia, o prazo de seis
-           meses, os identificadores de anuncio e o registro da marcacao
-           dos cartoes. Tudo isso roda desde 14/09.
+           Historico, porque a lacuna foi consciente: de 14 a 17/09 este item
+           descrevia um estado final que a pagina nao tinha. Prometia que o
+           GA4 rodava dentro do GTM, e que as tags de anuncio so carregavam
+           depois de a pessoa aceitar num aviso de cookies. O aviso nunca
+           existiu em lugar nenhum do projeto.
 
-           O que ainda NAO e verdade, e o que conserta cada uma:
+           O que fechou a divida:
+             1. O GA4 passou a rodar. O GTM-PVKGSRZD tem quatro tags
+                publicadas (Tag do Google, clique_whatsapp, selecao_triador e
+                Vinculador de conversoes do Ads). Verificado na rede em
+                17/09: a propriedade G-45ZDKWXB4B recebe os eventos. Essa
+                afirmacao virou verdade sozinha.
+             2. A promessa de escolha de cookies foi RETIRADA do texto, por
+                decisao do cliente, em vez de construida em codigo. O texto
+                agora diz o que o site faz: a medicao vale para todo mundo,
+                comeca quando a pagina abre, roda no legitimo interesse
+                (art. 7, IX), e a pessoa pode se opor e pedir exclusao pelos
+                canais do item 10 — que ganhou o direito de oposicao, que
+                faltava na lista.
 
-             1. "dentro dele, o Google Analytics" (paragrafo 1 deste item)
-                — o GA4 ainda nao esta ligado dentro do GTM-PVKGSRZD.
-                Conserta: ligar o GA4 no conteiner.
-             2. "so carregam se voce aceitar, no aviso que aparece quando a
-                pagina abre" (paragrafo Cookies e a sua escolha) — esse
-                aviso nao existe em lugar nenhum do projeto, e as tags de
-                anuncio tambem nao existem ainda. Conserta: o aviso de
-                cookies com escolha, que e o unico dos tres que e trabalho
-                de codigo, e o gatilho de consentimento nas tags.
+           REGRA PARA QUEM MEXER DEPOIS: texto e codigo mudam no mesmo
+           commit. Enquanto nao houver aviso de cookies com escolha, nao
+           escreva aqui que existe escolha. Se um dia o Consent Mode entrar,
+           este item volta a falar de consentimento no mesmo commit em que o
+           aviso nascer — e o caminho contrario tambem vale.
 
-           Enquanto as duas nao forem verdade, esta pagina promete um
-           controle que o site nao oferece. A segunda e a mais grave, porque
-           fala de uma escolha da pessoa. Ver
-           ../documentacao/13-politica-de-privacidade.md e
+           TENSAO QUE FICOU, registrada de proposito: com a conta do GA4
+           ligada a do Google Ads, sai um ping para ads/ga-audiences, que
+           alimenta publico de anuncio. E a parte mais fraca do
+           enquadramento em legitimo interesse, e o texto assume isso em voz
+           alta em vez de esconder. Desligar o vinculo de publico no GA4
+           (configuracao, nao codigo) deixaria a posicao bem mais
+           defensavel. Ver ../documentacao/13-politica-de-privacidade.md e
            ../documentacao/15-ref-e-caso-na-medicao.md. -->
       <h2 id="medicao">3. Medição e origem do contato</h2>
       <p>O site usa o Gerenciador de Tags do Google e, dentro dele, o Google Analytics, para contar quanta gente abre a página e quanta gente começa conversa no WhatsApp. O que é registrado é o toque no botão e de qual parte da página ele veio — por exemplo, "acidente" ou "hora extra". Serve para saber qual assunto traz mais gente ao escritório.</p>
@@ -207,11 +217,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p><strong>O código de referência.</strong> Na sua primeira visita, ainda antes de você tocar em qualquer coisa, o site cria um código curto — como <em>[ref A1B2C3]</em> — e guarda no seu próprio aparelho. Quando você toca no botão do WhatsApp, esse código entra na mensagem que abre no aplicativo. Ele serve para o escritório saber por qual anúncio ou por qual parte do site você chegou.</p>
       <p>O código fica à vista, escrito na mensagem, e você pode apagar antes de enviar. Só uma ressalva honesta: no instante do toque ele já foi para a medição do site. Apagar impede que ele chegue ao escritório junto com a sua mensagem — não desfaz o registro do toque.</p>
       <p>O código não diz o seu nome e não acompanha você por outros sites. Ele fica <strong>seis meses</strong> no seu aparelho e depois some sozinho, junto com os identificadores de anúncio. Limpar os dados do navegador apaga na hora.</p>
-      <p><strong>Identificadores de anúncio.</strong> Se você chegou por um anúncio, o endereço traz um identificador do Google ou da Meta. Ele é guardado no seu aparelho ao lado do código de referência, pelo mesmo prazo, e diz qual anúncio trouxe você, não quem você é.</p>
-      <p><strong>Cookies e a sua escolha.</strong> A medição própria descrita acima funciona sem cookie de acompanhamento e vale para todo mundo. Já as <strong>tags de anúncio do Google e da Meta só carregam se você aceitar</strong>, no aviso que aparece quando a página abre. Enquanto você não aceitar, elas não carregam e nada vai para essas plataformas. Você pode mudar de ideia depois.</p>
+      <p><strong>Identificadores de anúncio.</strong> Se você chegou por um anúncio do Google, o endereço traz um identificador dele. Ele é guardado no seu aparelho ao lado do código de referência, pelo mesmo prazo, e diz qual anúncio trouxe você, não quem você é.</p>
+      <p><strong>Cookies, e por que não tem aviso de escolha.</strong> A medição acima guarda cookies e marcas parecidas no seu aparelho: uma do Google Analytics, para não contar a mesma visita duas vezes, e uma do Google Ads, para ligar o toque no botão ao anúncio que trouxe você. Nenhuma delas diz o seu nome. <strong>Elas valem para todo mundo e começam quando a página abre — hoje o site não mostra aviso pedindo a sua escolha.</strong> A base disso é o legítimo interesse, explicado no <a href="#base-legal">item 5</a>, e não o seu consentimento: é o mínimo que o escritório precisa para saber se o anúncio está trazendo gente.</p>
+      <p>Uma ressalva honesta, porque ela importa: como a conta do Google Analytics está ligada à do Google Ads, o Google pode usar esse registro para formar público de anúncio. Não vai o seu nome, o seu telefone nem nada do que você escrever na conversa. Se você não quiser, <strong>pode se opor, e pode pedir para apagar o que já foi registrado</strong> — os canais estão no <a href="#direitos">item 10</a>, e o pedido é de graça. Limpar os dados do navegador apaga os cookies na hora, e aba anônima não guarda nada.</p>
       <p><strong>Nada do texto da sua conversa, do seu nome ou do seu telefone vai para a medição.</strong> O que o escritório vê ali é quantidade e origem, não pessoa.</p>
       <p>Ao enviar a mensagem, o WhatsApp entrega o seu número ao escritório. Daí em diante o atendimento é pessoal e sigiloso, tratado como dizem os itens <a href="#sigilo">6</a> e <a href="#tempo">8</a> desta política.</p>
-      <p><strong>Com que direito, e por quanto tempo.</strong> A medição própria e o código de referência ficam no legítimo interesse (art. 7º, IX), no mínimo necessário. As tags de anúncio ficam no seu consentimento (art. 7º, I), pedido antes de carregarem. Os números da medição ficam até 14 meses; o código de referência, seis. Para apagar esses registros, é só pedir em <a href="mailto:contato@jcp.adv.br">contato@jcp.adv.br</a>.</p>
+      <p><strong>Com que direito, e por quanto tempo.</strong> A medição da página, o código de referência e a medição de conversão do anúncio ficam todos no <strong>legítimo interesse</strong> (art. 7º, IX), no mínimo necessário — não no seu consentimento. Você pode se opor a qualquer momento (art. 18, § 2º). Os números da medição ficam até 14 meses; o código de referência, seis. Para se opor ou apagar esses registros, chame no WhatsApp <a href="https://wa.me/5561982533524?text=Oi%21%20Queria%20falar%20sobre%20os%20meus%20dados%20pessoais." target="_blank" rel="noopener">(61) 98253-3524</a> ou escreva para <a href="mailto:contato@jcp.adv.br">contato@jcp.adv.br</a>.</p>
       <p>Outras duas coisas aqui são de terceiros e recebem o seu IP só para conseguir entregar a página: as letras, que vêm do Google Fonts, e a hospedagem, que é da Cloudflare.</p>
 
       <h2 id="para-que">4. Para que a gente usa</h2>
@@ -229,10 +240,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><strong>Para atender você e tocar o caso</strong> — art. 7º, V: são os passos anteriores ao contrato e, depois, o próprio contrato com você.</li>
         <li><strong>Para cumprir a lei</strong> — art. 7º, II.</li>
         <li><strong>Para defender o seu direito em processo</strong> — art. 7º, VI.</li>
-        <li><strong>Para segurança do site, para medir a própria página e para o código de referência</strong> — art. 7º, IX, legítimo interesse, no mínimo necessário.</li>
+        <li><strong>Para segurança do site, para medir a própria página, para o código de referência e para medir a conversão dos anúncios</strong> — art. 7º, IX, legítimo interesse, no mínimo necessário. Você pode se opor: <a href="#direitos">item 10</a>.</li>
       </ul>
       <p>Para a informação sensível, como a de saúde, a base é o art. 11, II, "d": exercício regular de direitos em processo judicial, administrativo ou arbitral. Quando não for esse o caso, pedimos o seu consentimento, e você pode retirá-lo depois.</p>
-      <p>Para as tags de anúncio do Google e da Meta, a base é o <strong>seu consentimento</strong> — art. 7º, I —, pedido antes de elas carregarem. Você pode retirar depois, e elas param.</p>
+      <p>Hoje o site <strong>não usa tag que dependa do seu consentimento</strong>, e é por isso que não mostra aviso de cookies. As que existem são as de medição do <a href="#medicao">item 3</a>, no legítimo interesse. Se um dia entrar alguma que precise de consentimento — um pixel de rede social, por exemplo —, ele é pedido antes de a tag carregar, e esta política muda junto.</p>
 
       <h2 id="sigilo">6. Sigilo profissional</h2>
       <p>Além da LGPD, o que você conta ao escritório é protegido pelo <strong>sigilo profissional do advogado</strong>, dever previsto no Estatuto da Advocacia (Lei 8.906/1994, art. 34, VII) e no Código de Ética e Disciplina da OAB.</p>
@@ -241,7 +252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2 id="compartilha">7. Com quem a informação é compartilhada</h2>
       <ul>
         <li><strong>WhatsApp, da Meta.</strong> A conversa acontece dentro do aplicativo deles. O conteúdo tem criptografia de ponta a ponta, mas a Meta sabe que vocês conversaram, e o tratamento que ela faz segue a política dela, não a nossa.</li>
-        <li><strong>Google, Meta e Cloudflare.</strong> Recebem dado técnico de acesso, como explicado no <a href="#medicao">item 3</a>, para entregar a página e medir os toques nos botões. As tags de anúncio do Google e da Meta só recebem alguma coisa se você tiver aceitado o aviso de cookies.</li>
+        <li><strong>Google e Cloudflare.</strong> Recebem dado técnico de acesso, como explicado no <a href="#medicao">item 3</a>, para entregar a página e medir os toques nos botões. O Google recebe isso de <strong>todo visitante</strong>, no legítimo interesse, e não depende de você aceitar nada — o <a href="#medicao">item 3</a> explica, inclusive a parte de público de anúncio e como se opor.</li>
         <li><strong>Quem for necessário para o seu caso</strong>, e só se você contratar: Justiça do Trabalho, INSS, perito, parte contrária. Só o que o caso exigir.</li>
         <li><strong>Quando a lei ou uma ordem judicial obrigar.</strong> Mesmo aí, o sigilo profissional é levantado como defesa quando cabe.</li>
       </ul>
@@ -269,6 +280,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li>Saber com quem a gente compartilhou.</li>
         <li>Levar seus dados para outro lugar.</li>
         <li>Retirar um consentimento que você tenha dado.</li>
+        <li><strong>Se opor</strong> ao que roda por legítimo interesse, como a medição do <a href="#medicao">item 3</a>.</li>
         <li>Reclamar na Autoridade Nacional de Proteção de Dados, a ANPD.</li>
       </ul>
       <p>Para pedir, escreva para <a href="mailto:contato@jcp.adv.br">contato@jcp.adv.br</a>, chame no WhatsApp <a href="https://wa.me/5561982533524?text=Oi%21%20Queria%20falar%20sobre%20os%20meus%20dados%20pessoais." target="_blank" rel="noopener">(61) 98253-3524</a> ou passe no escritório. A gente vai confirmar que é você mesmo antes de responder — isso é para te proteger, não para dificultar. A resposta sai em até 15 dias.</p>
@@ -343,6 +355,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=19"></script>
+<script src="assets/js/main.js?v=20"></script>
 </body>
 </html>

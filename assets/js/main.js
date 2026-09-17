@@ -105,6 +105,35 @@
   /* o assunto que o anuncio trouxe, quando e um assunto de verdade */
   var casoDaUrl = eAssunto(caso) ? caso : '';
 
+  /* A ancora de entrada — qual bloco o link do anuncio pediu. Os sitelinks
+     do Google apontam todos para a mesma pagina e se distinguem so pelo #,
+     entao sem este campo o relatorio soma num unico destino o que foram
+     varios anuncios diferentes, e nao da pra saber qual sitelink converte.
+
+     Lido uma vez aqui, no carregamento, e nao na hora do clique: sete links
+     internos da propria pagina trocam o hash (os que apontam para os
+     cartoes de area), e ler no clique devolveria o ultimo pulo que a pessoa
+     deu dentro da pagina, nao a porta por onde ela entrou.
+
+     Vale a mesma peneira do ?caso=, e pelo mesmo motivo: entra so o que e
+     alvo de rolagem de verdade — <section id> ou cartao de area. A lista
+     sai da propria pagina, nao de um array escrito a mao, e e exatamente o
+     conjunto que leva scroll-margin-top no CSS. Assim um bloco novo ja
+     nasce valido, e hash inventado colado no fim da URL nao entra no
+     relatorio. */
+  var ENTRADA = (function () {
+    var bruto = (window.location.hash || '').slice(1);
+    try {
+      bruto = decodeURIComponent(bruto);
+    } catch (e) { /* hash mal formado: segue com o texto cru */ }
+    if (!bruto) return '';
+    var alvos = document.querySelectorAll('section[id],article.area[id]');
+    for (var i = 0; i < alvos.length; i++) {
+      if (alvos[i].id === bruto) return bruto;
+    }
+    return '';
+  })();
+
   if (caso && VARIANTES[caso]) {
     var v = VARIANTES[caso];
     var hT = byId('hero-titulo');
@@ -164,7 +193,13 @@
         window.dataLayer.push({
           event: 'selecao_triador',
           caso: marcados.join(','),
-          qtd_marcados: marcados.length
+          qtd_marcados: marcados.length,
+          /* Vai aqui tambem, e nao so no clique, para dar de responder qual
+             sitelink leva a pessoa a usar o triador — que e a conversao
+             pequena do proprio #triador. Este campo nao corre o risco de
+             valor velho que os outros correm: e lido uma vez na carga e
+             nao muda enquanto a pagina estiver aberta. */
+          wa_entrada: ENTRADA
         });
       }
     };
@@ -298,6 +333,7 @@
       wa_rotulo: (alvo.textContent || '').replace(/\s+/g, ' ').trim(),
       wa_ref: REF,
       wa_gclid: window.jcpGclid || '',
+      wa_entrada: ENTRADA,
       caso: assunto,
       wa_marcados: marcados.join(','),
       qtd_marcados: marcados.length
