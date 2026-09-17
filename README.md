@@ -62,9 +62,8 @@ disparando eventos reais no contêiner do cliente.
 ## Cache: subir o `?v=` deixou de ser boa prática
 
 Ao alterar CSS, JavaScript ou imagem, suba o `?v=` da referência
-correspondente. **No ar**, o CSS está em `v=16`, o JavaScript em `v=19`;
-no repositório, à espera de publicação, o CSS está em `v=17` e o
-JavaScript em `v=20` (âncora dos cartões e campo `wa_entrada`, abaixo)
+correspondente. **No ar**, o CSS está em `v=17` e o JavaScript em `v=20`
+(nas duas páginas), desde 17/09/2026
 (nas duas páginas), a foto da equipe em `v=15`, a foto da sala em `v=14`;
 os arquivos que não mudaram seguem em `v=12`, de propósito, para não
 forçar download repetido em quem usa dado pré-pago.
@@ -105,8 +104,8 @@ WhatsApp, o evento `clique_whatsapp` com os oito campos (`caso`,
 mesmo vazios), o evento `selecao_triador` e a Política de Privacidade
 reescrita. O `main.js` está em `v=19`, **nas duas páginas**.
 
-**No repositório, ainda não publicado, esse evento tem um nono campo:**
-`wa_entrada`, a âncora pela qual a pessoa chegou. Os sitelinks do Google
+**Desde 17/09/2026 esse evento tem um nono campo:** `wa_entrada`, a
+âncora pela qual a pessoa chegou. Os sitelinks do Google
 apontam todos para a mesma página e se distinguem só pelo `#`, então sem
 ele o relatório soma num destino único o que foram vários anúncios. É
 lido uma vez na carga, não no clique — os sete links internos que
@@ -117,12 +116,20 @@ razão que o `?caso=` tem peneira. Vai também no `selecao_triador`, onde
 não corre risco de valor velho porque não muda enquanto a página está
 aberta.
 
-**Ele só chega ao GA4 depois de duas configurações no GTM** que não são
-código: uma Variável de camada de dados `wa_entrada` e o parâmetro
-correspondente na tag `GA4 - clique_whatsapp` (e na do triador). Sem
-isso o campo fica no `dataLayer` e o GTM o ignora. Para aparecer em
-relatório, falta ainda registrá-lo como dimensão personalizada com
-escopo de evento no GA4.
+**Ele está publicado e inerte.** Só chega ao GA4 depois de três
+configurações que não são código: a Variável de camada de dados
+`DLV - wa_entrada`, o parâmetro `wa_entrada` nas tags
+`GA4 - clique_whatsapp` e `GA4 - selecao_triador`, e a dimensão
+personalizada `wa_entrada` com escopo de evento no GA4. Sem elas o campo
+fica no `dataLayer` e o GTM o ignora.
+
+**A ordem importa: a dimensão personalizada não é retroativa.** Ela só
+enxerga evento que chegou depois de existir. Os três passos vêm **antes**
+de cadastrar sitelink no Ads, senão o primeiro período de veiculação fica
+sem relatório por âncora — que é o período que motivou o campo. A
+especificação completa está em
+[`../documentacao/17-sitelinks-ancora-de-entrada-e-a-divida-fechada.md`](../documentacao/17-sitelinks-ancora-de-entrada-e-a-divida-fechada.md),
+seção 3.
 
 ## A dívida do item 3 foi fechada pelo texto, não pelo código
 
